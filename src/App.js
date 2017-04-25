@@ -32,7 +32,7 @@ export default class App extends React.Component {
 
 const Footer = styled.footer`
 	position: relative;
-	bottom: 0;
+	bottom: 0px;
 	height: 300px;
 	width: 100%;
 	background-color: rgba(241,241,241,0.7);
@@ -40,7 +40,7 @@ const Footer = styled.footer`
 	display: flex;
 	align-items: center;
 	border: 1px solid rgba(0,0,0,0.1);
-`
+`;
 
 const Profiler = () => <div style={{margin: 'auto'}}><h1>Profiler</h1></div>
 const Login = () => <div style={{margin: 'auto'}}><h1>Login</h1></div>
@@ -61,6 +61,7 @@ const Page = styled.div`
 
 const Container = styled.main`
 	margin: auto;
+	height: 100%;
 	padding-top: 100px;
 	display: flex;
 	flex-direction: column;
