@@ -11,7 +11,7 @@ import path from 'path';
 import apiRoutes from './api';
 
 
-const PORT = 3001
+const PORT = 8080;
 
 const app = express();
 
