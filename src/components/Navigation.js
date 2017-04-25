@@ -10,23 +10,23 @@ export default class Navigation extends React.Component {
   componentDidMount() {
   	this.sideNav = document.getElementById('side-nav')
   	this.navbar = document.getElementById('navbar')
-  	this.oldScroll = document.body.scrollTop
-  	this.scrollEvent = document.addEventListener('scroll', this.scrollChecker)
+  	// this.oldScroll = document.body.scrollTop
+  	// this.scrollEvent = document.addEventListener('scroll', this.scrollChecker)
   }
-  componentWillUnmount(){
-  	document.removeEventListener('scroll', this.scrollEvent)
-  }
-  scrollChecker = (e) => {
-  	this.sideNav.style.width = '0';
-  	this.setState((state) => {
-	  	if(document.body.scrollTop > this.oldScroll) 
-	  		return { test: { position: 'fixed', height: '0px'}, isNavOpen: false }
-	  	if(document.body.scrollTop < this.oldScroll)
-	  		return { test: { position: 'fixed', height: '60px'}, isNavOpen: false }
+  // componentWillUnmount(){
+  // 	document.removeEventListener('scroll', this.scrollEvent)
+  // }
+  // scrollChecker = (e) => {
+  // 	this.sideNav.style.width = '0';
+  // 	this.setState((state) => {
+	 //  	if(document.body.scrollTop > this.oldScroll) 
+	 //  		return { test: { position: 'fixed', height: '0px'}, isNavOpen: false }
+	 //  	if(document.body.scrollTop < this.oldScroll)
+	 //  		return { test: { position: 'fixed', height: '60px'}, isNavOpen: false }
   		
-  	})
-  	this.oldScroll = document.body.scrollTop
-  }
+  // 	})
+  // 	this.oldScroll = document.body.scrollTop
+  // }
   onClick = (e) => {
   	this.setState((state) => {
   		if(state.isNavOpen) {
@@ -102,7 +102,8 @@ const Navbar = styled.header`
 	background-color: #111111;
 	border-bottom: 1px solid rgba(0,0,0,0.2);
 	z-index: 5;
-	position: fixed;
+	position: absolute;
 	transition: height 0.2s linear;
 	overflow: hidden;
+  top: 0;
 `
