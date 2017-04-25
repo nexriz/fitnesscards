@@ -1,8 +1,12 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import styled, { injectGlobal } from 'styled-components';
+import { connect } from 'react-redux';
+import { login, logout } from './redux/actions/userActions';
 
-
+@connect(state => {
+  return {user: state.user}
+}, { login, logout })
 export default class Navigation extends React.Component {
   state = {
   	test: null

@@ -61,7 +61,6 @@ class CardPicture extends React.Component {
 		const { picture } = this.props;
 		const { modal } = this.state;
 
-		console.log(modal)
 		return (
 			<div >
 
