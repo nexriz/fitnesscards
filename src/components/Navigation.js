@@ -54,22 +54,25 @@ export default class Navigation extends React.Component {
   }
   render() {
     return (
-      <div>
-		<Navbar id="navbar" style={this.state.test} >
-			<i onClick={this.onClick} className="small material-icons my-menu" style={{color: 'white', float: 'right', padding: '15px', cursor: 'pointer'}}>view_module</i>
-		</Navbar>
-		<SideNav id="side-nav" onClick={this.closeNav}>
-			<Divider />
-			<NavLink to="/"><NavItem><i className="material-icons" style={{paddingRight: '10px'}}>perm_identity</i> Hem</NavItem></NavLink>
-			<NavLink to="/profiler"><NavItem><i className="material-icons" style={{paddingRight: '10px'}}>perm_identity</i> Profiler</NavItem></NavLink>
-			<NavLink to="/login"><NavItem><i className="material-icons" style={{paddingRight: '10px'}}>input</i> Logga in</NavItem></NavLink>
-		</SideNav>      	
-      </div>
+      <NavContainer>
+    		<Navbar id="navbar" style={this.state.test} >
+    			<i onClick={this.onClick} className="small material-icons my-menu" style={{color: 'white', float: 'right', padding: '15px', cursor: 'pointer'}}>view_module</i>
+    		</Navbar>
+    		<SideNav id="side-nav" onClick={this.closeNav}>
+    			<Divider />
+    			<NavLink to="/"><NavItem><i className="material-icons" style={{paddingRight: '10px'}}>perm_identity</i> Hem</NavItem></NavLink>
+    			<NavLink to="/profiler"><NavItem><i className="material-icons" style={{paddingRight: '10px'}}>perm_identity</i> Profiler</NavItem></NavLink>
+    			<NavLink to="/login"><NavItem><i className="material-icons" style={{paddingRight: '10px'}}>input</i> Logga in</NavItem></NavLink>
+    		</SideNav>      	
+      </NavContainer>
     );
   }
 }
 
 
+const NavContainer = styled.div`
+
+`;
 
 const SideNav = styled.div`
 	z-index: 10;

@@ -84,6 +84,7 @@ injectGlobal`
 		margin: 0;
 		padding: 0;
 		background: url(${pattern});
+		overflow-x: hidden;
 	}
 	.collapsible-header {
 		background-color: #546e7a;

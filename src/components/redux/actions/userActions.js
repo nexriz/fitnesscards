@@ -13,7 +13,7 @@ export function login(user) {
 	return dispatch => {
 	const { name, pass } = user;
 		axios
-			.post('/auth/login', {username: name, password: pass})
+			.post('/auth', {username: name, password: pass})
 			.then(res => {
 				localStorage.setItem('jwtToken', res.data.token)
 				setAuthorizationToken(res.data.token)

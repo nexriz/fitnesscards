@@ -20,7 +20,7 @@ export default class Card extends React.Component {
     	<CardContainer style={{ transition: 'opacity 2s', opacity: '1'}} color={color}>
     		<CardPicture picture={cardPicture && cardPicture}/>
     		<CardTitle title={title}/>
-    			<PictureInfoItems infoItems={infoItems}/>
+    		<PictureInfoItems infoItems={infoItems}/>
 			    <ContentContainer>
 
 			   		<CollUl>
@@ -158,8 +158,8 @@ const Icons = styled.i`
 `;
 
 const ContentContainer = styled.div`
-	margin: 10px;
-	margin-top: 50px;
+	margin: 5px;
+	margin-top: 0px;
 `;
 
 const InfoItem = styled.div`
@@ -182,6 +182,7 @@ const InfoBox = styled.div`
 	height: 80px;
 	width: 50px;
 	float: left;
+	position: absolute;
 	transform: translate(0, -100px);
 	z-index: 2;
 	display: flex;
@@ -219,7 +220,7 @@ const Picture = styled.div`
 const CardContainer = styled.div`
 	margin: auto;
 	width: 320px;
-	min-height: 450px;
+	min-height: 350px;
 	margin-bottom: 20px;
 	border-radius: 2px;
 	overflow: hidden;
