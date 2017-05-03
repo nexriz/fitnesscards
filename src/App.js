@@ -1,22 +1,30 @@
 import React from 'react';
 import styled, { injectGlobal } from 'styled-components';
 import Card from './components/Card';
+import CardEditor from './components/CardEditor';
 import pattern from './topography.png';
 import Navigation from './components/Navigation';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-
+import { connect } from 'react-redux';
 import NavbarBottom from './components/NavbarBottom';
+import '../node_modules/megadraft/dist/css/megadraft.css';
 
+
+const mapStateToProps = (state) => {
+	return { cards: state.cards }
+}
+
+@connect(mapStateToProps)
 export default class App extends React.Component {
-
   render() {
+  	console.log(this.props.cards)
     return (
     	<Router>
 	    	<Page id="page">
 	    		<Navigation/>
 	    		<Route render={({ location }) => (
 				    <Container>
-	    				<Route exact path="/" component={Cards}/>
+	    				<Route exact path="/" render={() => <Cards cards={this.props.cards} />}/>
 					    <Route path="/profiler" component={Profiler}/>	    
 					    <Route path="/sök" component={Search}/>	    
 					    <Route path="/login" component={Login}/>
@@ -30,29 +38,17 @@ export default class App extends React.Component {
   }
 }
 
-const Footer = styled.footer`
-	position: relative;
-	bottom: 0px;
-	height: 300px;
-	width: 100%;
-	background-color: rgba(241,241,241,0.7);
-	color: black;
-	display: flex;
-	align-items: center;
-	border: 1px solid rgba(0,0,0,0.1);
-`;
+const Cards = ({cards}) => (
+    	<div>
+    		{cards.map((item, i) => <Card key={i} title={item.name} color={item.color} cardPicture={item.picture}/>)}
+    	</div>
+)
 
-const Profiler = () => <div style={{margin: 'auto'}}><h1>Profiler</h1></div>
+
+const Profiler = () => <div style={{margin: 'auto'}}><CardEditor></CardEditor></div>
 const Login = () => <div style={{margin: 'auto'}}><h1>Login</h1></div>
 const Search = () => <div style={{margin: 'auto'}}><h1>Sök</h1></div>
 
-const Cards = () => (
-    	<div>
-	      	<Card title="Övre Bröst" />
-	      	<Card color="#ffcdd2" title="Ben" cardPicture={"https://www.bodybuilding.com/images/2016/december/Deadlifts-Should-You-Train-Them-With-Back-Or-Legs-graphics-1-640xh.jpg"}/>
-	      	<Card color="#dcedc8" title="Biceps" cardPicture={"http://cdn-maf0.heartyhosting.com/sites/muscleandfitness.com/files/styles/full_node_image_1090x614/public/media/bicep-flx.jpg?itok=2XQJq2Yi&timestamp=1422386260"}/>
-    	</div>
-	)
 
 
 const Page = styled.div`
@@ -76,6 +72,8 @@ injectGlobal`
 	* {
 		font-family: 'Audiowide', cursive;
 		-webkit-font-smoothing: antialiased;
+		user-select: none;
+		-webkit-tap-highlight-color:  rgba(255, 255, 255, 0);
 	}
 	a {
 		color: rgba(255,255,255,1);
@@ -123,4 +121,16 @@ injectGlobal`
 	::-webkit-scrollbar { 
     display: none; 
 	}
+`;
+
+const Footer = styled.footer`
+	position: relative;
+	bottom: 0px;
+	height: 300px;
+	width: 100%;
+	background-color: rgba(241,241,241,0.7);
+	color: black;
+	display: flex;
+	align-items: center;
+	border: 1px solid rgba(0,0,0,0.1);
 `;

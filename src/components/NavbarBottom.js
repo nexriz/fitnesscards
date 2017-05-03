@@ -24,6 +24,8 @@ const NavBar = styled.nav`
 	justify-content: center;
 	bottom: 0;
 	user-select: none;
+	z-index: 100;
+	-webkit-tap-highlight-color:  rgba(255, 255, 255, 0);
 `;
 
 const Navitem = styled(NavLink)`
@@ -35,6 +37,11 @@ const Navitem = styled(NavLink)`
 	&:hover {
 		color: #EA454B;
 	}
+	&:focus {
+		color: white;
+	}
 	user-select: none;
 	cursor: pointer;
+	z-index: 100;
+	-webkit-tap-highlight-color:  rgba(255, 255, 255, 0);
 `;

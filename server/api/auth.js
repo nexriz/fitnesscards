@@ -1,16 +1,16 @@
 import express from 'express';
-import jwt from 'json-web-token';
+import jwt from 'jsonwebtoken';
 
-const router = express.router();
+const router = express.Router();
 
 router.post('/', (req, res) => {
-		if(req.body.username) {
+	if(req.body.username) {
 		const token = jwt.sign({ username: req.body.username, role: 'pleb' }, 'key123')
-		const Auth = ['Authorization', `Bearer ${token}`];			
-		res.set(...Auth)
 		res.json({token})
 	}
-
-	res.status(303).send('error, send username')
+	else
+		res.status(303).send('error, send username')
 
 })
+
+export default router;

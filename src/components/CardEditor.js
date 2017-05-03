@@ -5,12 +5,24 @@ import exerc from '../svg/exercise.svg';
 import legdips from '../svg/legdips.svg';
 import medal from '../svg/medal.svg';
 import CollItem from '../components/CollItem';
+import {Editor, EditorState, convertToRaw } from 'draft-js';
 
-export default class Card extends React.Component {
-	state = {
-		leave: false,
-		test: { opacity: '1' }
+class TitleEdit extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {editorState: EditorState.createEmpty()};
+		this.onChange = (editorState) => this.setState({editorState})
 	}
+	render() {
+	    return (
+	        <Editor editorState={this.state.editorState} onChange={this.onChange} />
+	    );
+  }
+}
+
+
+
+export default class CardEditor extends React.Component {
   componentWillUnmount() {
   	this.setState({ leave: true, test: { opacity: '0'}})
   }
@@ -19,10 +31,9 @@ export default class Card extends React.Component {
     return (
     	<CardContainer style={{ transition: 'opacity 2s', opacity: '1'}} color={color}>
     		<CardPicture picture={cardPicture && cardPicture}/>
-    		<CardTitle title={title}/>
+    		<CardTitle title={<TitleEdit />}/>
     		<PictureInfoItems infoItems={infoItems}/>
 			    <ContentContainer>
-
 			   		<CollUl>
 			   			<CollItem  header="Övningar" icon={athlete}>
 			   			</CollItem>
@@ -223,7 +234,6 @@ const CardContainer = styled.div`
 	min-height: 350px;
 	margin-bottom: 20px;
 	border-radius: 2px;
-	overflow: hidden;
 	background-color: ${props => props.color ? props.color : '#fffde7'};
 	box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2);
 `;
