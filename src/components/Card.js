@@ -15,10 +15,10 @@ export default class Card extends React.Component {
   	this.setState({ leave: true, test: { opacity: '0'}})
   }
   render() {
-  	const { title, color, cardPicture, infoItems, author } = this.props;
+  	const { title, color, picture, infoItems, author } = this.props;
     return (
     	<CardContainer style={{ transition: 'opacity 2s', opacity: '1'}} color={color}>
-    		<CardPicture picture={cardPicture && cardPicture}/>
+    		<CardPicture picture={picture && picture}/>
     		<CardTitle title={title}/>
     		<PictureInfoItems infoItems={infoItems}/>
 			    <ContentContainer>
@@ -105,15 +105,13 @@ const ModalBody = styled.div`
 `;
 
 
-
-
 const CollUl = styled.ul`
 	padding: 20px 0;
 	padding-left: 0;
 	list-style: none;
 `;
 
-const Medal = () => <img  width="30px" height="30px" style={{float: 'right', transform: 'translate(0,-40px)'}} src={medal} alt=""/>
+const Medal = () => <img  width="30px" height="30px" style={{position: 'absolute', right: '0', top: '0', transform: 'translate(0,0px)'}} src={medal} alt=""/>
 
 
 const CardTitle = (props) => <TitleBox><Icons className="material-icons">assessment</Icons><Title>{props.title}</Title><Medal/></TitleBox>

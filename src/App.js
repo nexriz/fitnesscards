@@ -7,7 +7,7 @@ import Navigation from './components/Navigation';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import NavbarBottom from './components/NavbarBottom';
-import '../node_modules/megadraft/dist/css/megadraft.css';
+import 'megadraft/dist/css/megadraft.css';
 
 
 const mapStateToProps = (state) => {
@@ -17,7 +17,6 @@ const mapStateToProps = (state) => {
 @connect(mapStateToProps)
 export default class App extends React.Component {
   render() {
-  	console.log(this.props.cards)
     return (
     	<Router>
 	    	<Page id="page">
@@ -40,7 +39,7 @@ export default class App extends React.Component {
 
 const Cards = ({cards}) => (
     	<div>
-    		{cards.map((item, i) => <Card key={i} title={item.name} color={item.color} cardPicture={item.picture}/>)}
+    		{cards.map((item, i) => <Card key={i} title={item.title} color={item.color} picture={item.picture}/>)}
     	</div>
 )
 
@@ -68,6 +67,11 @@ injectGlobal`
 	@import url('https://fonts.googleapis.com/css?family=Anton|Audiowide|Chewy|Rubik+Mono+One');
 	@font-face {
 		font-family: 'Chewy', cursive;
+	}
+	.public-DraftEditorPlaceholder-inner {
+	  position: absolute;
+	  transform: translate(35px, 0);
+	  color: rgba(0,0,0,0.4);
 	}
 	* {
 		font-family: 'Audiowide', cursive;

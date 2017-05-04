@@ -5,7 +5,8 @@ import exerc from '../svg/exercise.svg';
 import legdips from '../svg/legdips.svg';
 import medal from '../svg/medal.svg';
 import CollItem from '../components/CollItem';
-import {Editor, EditorState, convertToRaw } from 'draft-js';
+import { Editor, EditorState, convertToRaw } from 'draft-js';
+
 
 class TitleEdit extends React.Component {
 	constructor(props) {
@@ -14,13 +15,18 @@ class TitleEdit extends React.Component {
 		this.onChange = (editorState) => this.setState({editorState})
 	}
 	render() {
+		console.log(convertToRaw(this.state.editorState.getCurrentContent()))
 	    return (
-	        <Editor editorState={this.state.editorState} onChange={this.onChange} />
+	    	<div>
+	        	<Editor 
+	        	placeholder="ändra titel..." 
+	        	spellCheck editorState={this.state.editorState} 
+	        	onChange={this.onChange} 
+	        	/>
+	    	</div>
 	    );
   }
 }
-
-
 
 export default class CardEditor extends React.Component {
   componentWillUnmount() {
@@ -74,7 +80,6 @@ class CardPicture extends React.Component {
 
 		return (
 			<div >
-
  				{modal 
  					?
  					<ModalContainer onClick={this.mouseEventClick}>
@@ -124,7 +129,7 @@ const CollUl = styled.ul`
 	list-style: none;
 `;
 
-const Medal = () => <img  width="30px" height="30px" style={{float: 'right', transform: 'translate(0,-40px)'}} src={medal} alt=""/>
+const Medal = () => <img  width="30px" height="30px" style={{position: 'absolute', right: '0', top: '0', transform: 'translate(0,0px)'}} src={medal} alt=""/>
 
 
 const CardTitle = (props) => <TitleBox><Icons className="material-icons">assessment</Icons><Title>{props.title}</Title><Medal/></TitleBox>
