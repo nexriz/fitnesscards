@@ -1,6 +1,7 @@
 import express from 'express';
-import user from './user';
+import register from './register';
 import auth from './auth';
+import card from './card';
 
 
 const routerApi = express.Router();
@@ -8,6 +9,8 @@ const routerApi = express.Router();
 
 
 routerApi.use('/auth', auth);
+routerApi.use('/register', register);
+routerApi.use('/card', card);
 
 
 

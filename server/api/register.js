@@ -14,9 +14,8 @@ user.post('/', (req, res) => {
 				tokenDecoded: jwt.decode(token)
 			})
 		}
-
-		res.status(303).send('error, send username')
-
+		else 
+			res.status(303).send('error, send username')
 })
 
 

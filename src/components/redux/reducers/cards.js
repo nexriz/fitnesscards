@@ -5,7 +5,11 @@ let init = [
 		color: '#fffde7',
 		exercises: 'test',
 		alternative: 'test2',
-		extra: 'test3'
+		extra: 'test3',
+		meta: {
+			votes: 10,
+			favs: 3
+		}
 	},
 	{
 		title: 'Ben',
@@ -13,7 +17,11 @@ let init = [
 		color: '#ffcdd2',
 		exercises: 'test',
 		alternative: 'test2',
-		extra: 'test3'
+		extra: 'test3',
+		meta: {
+			votes: 10,
+			favs: 3
+		}
 	},
 	{
 		title: 'Biceps',
@@ -21,7 +29,11 @@ let init = [
 		color: '#dcedc8',
 		exercises: 'test',
 		alternative: 'test2',
-		extra: 'test3'
+		extra: 'test3',
+		meta: {
+			votes: 10,
+			favs: 3
+		}
 	}
 ];
 

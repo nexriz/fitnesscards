@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "axios": "^0.16.1",
+    "babel-cli": "^6.24.1",
     "body-parser": "^1.17.1",
     "cookie-parser": "^1.4.3",
     "cors": "^2.8.3",
@@ -68,6 +69,7 @@
     "http-proxy-middleware": "0.17.3",
     "jest": "18.1.0",
     "json-loader": "0.5.4",
+    "mongoose": "^4.9.7",
     "nodemon": "^1.11.0",
     "object-assign": "4.1.1",
     "postcss-loader": "1.2.2",
