@@ -5,39 +5,46 @@ import exerc from '../svg/exercise.svg';
 import legdips from '../svg/legdips.svg';
 import medal from '../svg/medal.svg';
 import CollItem from '../components/CollItem';
-import { Editor, EditorState, convertToRaw } from 'draft-js';
 
 
-class TitleEdit extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {editorState: EditorState.createEmpty()};
-		this.onChange = (editorState) => this.setState({editorState})
-	}
-	render() {
-		console.log(convertToRaw(this.state.editorState.getCurrentContent()))
-	    return (
-	    	<div>
-	        	<Editor 
-	        	placeholder="ändra titel..." 
-	        	spellCheck editorState={this.state.editorState} 
-	        	onChange={this.onChange} 
-	        	/>
-	    	</div>
-	    );
-  }
+const InputEdit = (props) => {
+	return <Edit type="text" {...props} />
 }
 
+const Edit = styled.input`
+	border: none;
+	position: absolute;
+	transform: translate(0,-1px);
+	font-size: inherit;
+	width: 250px;
+	color: inherit;
+	background-color: rgba(255,255,255,0);
+	&:focus {
+		outline: none;
+	}
+`;
 export default class CardEditor extends React.Component {
+  state = {
+  	color: '#3599db',
+  	text: ''
+  }
   componentWillUnmount() {
   	this.setState({ leave: true, test: { opacity: '0'}})
   }
+  handleColor = (e) => {
+  	this.setState({color: e.target.value})
+  }
+  _handleEdit = (e) => {
+  	const { value, name } = e.target;
+  	this.setState({[name]: value});
+  }
   render() {
   	const { title, color, cardPicture, infoItems, author } = this.props;
+  	console.log(this.state.title);
     return (
-    	<CardContainer style={{ transition: 'opacity 2s', opacity: '1'}} color={color}>
+    	<CardContainer style={{ transition: 'opacity 2s', opacity: '1'}} color={this.state.color || color}>
     		<CardPicture picture={cardPicture && cardPicture}/>
-    		<CardTitle title={<TitleEdit />}/>
+    		<CardTitle title={<InputEdit name="title" placeholder="ändra.." onChange={this._handleEdit}/>}/>
     		<PictureInfoItems infoItems={infoItems}/>
 			    <ContentContainer>
 			   		<CollUl>
@@ -50,6 +57,10 @@ export default class CardEditor extends React.Component {
 			   				<Img src="http://annicaenglund.se/wp-content/uploads/2013/12/Collage3.jpg" alt=""/>
 			   			</CollItem>
 			   		</CollUl>
+			   		<input
+			   			type="color"
+			   			value={this.state.color}
+			   			onChange={this.handleColor}/>
 			    </ContentContainer>
 
 		   <CardFooter>

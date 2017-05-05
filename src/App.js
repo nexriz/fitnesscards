@@ -7,15 +7,20 @@ import Navigation from './components/Navigation';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import NavbarBottom from './components/NavbarBottom';
-import 'megadraft/dist/css/megadraft.css';
 
+// Pages
+import LoginPage from './LoginPage';
+
+import { fetchCards } from './components/redux/actions/cardActions';
 
 const mapStateToProps = (state) => {
 	return { cards: state.cards }
 }
-
-@connect(mapStateToProps)
+@connect(mapStateToProps, { fetchCards })
 export default class App extends React.Component {
+  componentWillMount() {
+  	this.props.fetchCards({})
+  }
   render() {
     return (
     	<Router>
@@ -26,7 +31,7 @@ export default class App extends React.Component {
 	    				<Route exact path="/" render={() => <Cards cards={this.props.cards} />}/>
 					    <Route path="/profiler" component={Profiler}/>	    
 					    <Route path="/sök" component={Search}/>	    
-					    <Route path="/login" component={Login}/>
+					    <Route path="/login" component={LoginPage}/>
 					    <Footer><h3 style={{margin: 'auto', paddingBottom: '30px'}}>Footer</h3></Footer>	    
 				  	</Container>
 	    		)}/>

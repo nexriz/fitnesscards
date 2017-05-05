@@ -39,6 +39,6 @@ let init = [
 
 export default (state=init, action) => {
 	return action.type === 'ADD_CARD'
-		? [...state, action.payload]
+		? [...state, ...action.payload]
 		: state;
 }
