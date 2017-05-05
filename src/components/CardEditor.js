@@ -8,7 +8,7 @@ import CollItem from '../components/CollItem';
 
 
 const InputEdit = (props) => {
-	return <Edit type="text" {...props} />
+		return <Edit type="text" {...props} />
 }
 
 const Edit = styled.input`
@@ -26,25 +26,29 @@ const Edit = styled.input`
 export default class CardEditor extends React.Component {
   state = {
   	color: '#3599db',
-  	text: ''
-  }
-  componentWillUnmount() {
-  	this.setState({ leave: true, test: { opacity: '0'}})
+  	text: '',
+  	title: ''
   }
   handleColor = (e) => {
   	this.setState({color: e.target.value})
   }
   _handleEdit = (e) => {
   	const { value, name } = e.target;
-  	this.setState({[name]: value});
+  	this.setState(() => {
+  		if(name === 'title') {
+  			if(value.length <= 15)
+  				return {[name]: value}
+  		}
+  		else return {[name]: value}
+  	});
   }
   render() {
-  	const { title, color, cardPicture, infoItems, author } = this.props;
-  	console.log(this.state.title);
+  	const { color, cardPicture, infoItems, author } = this.props;
+  	const { title } = this.state;
     return (
     	<CardContainer style={{ transition: 'opacity 2s', opacity: '1'}} color={this.state.color || color}>
     		<CardPicture picture={cardPicture && cardPicture}/>
-    		<CardTitle title={<InputEdit name="title" placeholder="ändra.." onChange={this._handleEdit}/>}/>
+    		<CardTitle title={<InputEdit name="title" placeholder="ändra.." value={title} onChange={this._handleEdit}/>}/>
     		<PictureInfoItems infoItems={infoItems}/>
 			    <ContentContainer>
 			   		<CollUl>
@@ -131,9 +135,6 @@ const ModalBody = styled.div`
 	position: relative;
 `;
 
-
-
-
 const CollUl = styled.ul`
 	padding: 20px 0;
 	padding-left: 0;
@@ -191,7 +192,7 @@ const ContentContainer = styled.div`
 
 const InfoItem = styled.div`
 	height: 20px;
-	width: 15px;
+	width: 20px;
 	background-color: rgba(15,15,15, 0.8);
 	transition: width 0.5s;
 	color: white;
@@ -219,11 +220,12 @@ const InfoBox = styled.div`
 	-webkit-tap-highlight-color:  rgba(255, 255, 255, 0);
 `
 const Title = styled.h2`
+	position: absolute;
+	top: 7px;
+	left: 45px;
 	color: rgba(255,255,255,1);
 	padding: 0;
-	padding-left: 10px;
 	margin: 0;
-	padding-top: 12px;
 	font-family: 'Audiowide', cursive;
 	letter-spacing: 1px;
 	font-weight: 200;

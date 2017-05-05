@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import styled, { injectGlobal } from 'styled-components';
+import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { login, logout } from './redux/actions/userActions';
 

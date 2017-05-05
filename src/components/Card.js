@@ -190,11 +190,12 @@ const InfoBox = styled.div`
 	-webkit-tap-highlight-color:  rgba(255, 255, 255, 0);
 `
 const Title = styled.h2`
+	position: absolute;
+	top: 7px;
+	left: 45px;
 	color: rgba(255,255,255,1);
 	padding: 0;
-	padding-left: 10px;
 	margin: 0;
-	padding-top: 12px;
 	font-family: 'Audiowide', cursive;
 	letter-spacing: 1px;
 	font-weight: 200;

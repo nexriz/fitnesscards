@@ -14,6 +14,10 @@ import LoginPage from './LoginPage';
 import { fetchCards } from './components/redux/actions/cardActions';
 
 
+const Profiler = () => <div style={{margin: 'auto'}}><CardEditor></CardEditor></div>
+
+const Search = () => <div style={{margin: 'auto'}}><h1>Sök</h1></div>
+
 
 const mapStateToProps = (state) => {
 	return { cards: state.cards }
@@ -62,10 +66,6 @@ const Cards = ({cards}) => (
 )
 
 
-const Profiler = () => <div style={{margin: 'auto'}}><CardEditor></CardEditor></div>
-const Login = () => <div style={{margin: 'auto'}}><h1>Login</h1></div>
-const Search = () => <div style={{margin: 'auto'}}><h1>Sök</h1></div>
-
 
 
 const Page = styled.div`
@@ -80,7 +80,7 @@ const Container = styled.main`
 	flex-direction: column;
 `;
 
-
+/* eslint-disable */
 injectGlobal`
 	@import url('https://fonts.googleapis.com/css?family=Anton|Audiowide|Chewy|Rubik+Mono+One');
 	@font-face {

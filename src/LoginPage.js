@@ -3,6 +3,10 @@ import styled from 'styled-components';
 
 
 export default class LoginPage extends React.Component {
+  state = {
+    username: '',
+    password: ''
+  }
   onChange = (e) => {
   	const { name, value } = e.target;
   	this.setState({[name]: value})
@@ -16,13 +20,14 @@ export default class LoginPage extends React.Component {
     	<Container>
     		<LoginForm onSubmit={this.onSubmit}>
     			<div style={{margin: 'auto'}}>
-	    			<label>user</label><br/>
+	    			<label>Name</label><br/>
 	    			<input name="username" onChange={this.onChange} type="text"/><br/>
-	    			<label>pass</label><br/>
+	    			<label>Pass</label><br/>
 	    			<input name="password" onChange={this.onChange} type="password"/><br/>
 	    			<button>login</button>
     			</div>
     		</LoginForm>
+        
     	</Container>
     );
   }

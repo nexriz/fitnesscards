@@ -23,6 +23,7 @@ const app = express();
 
 // Middleware 
 app.use(cors())
+
 // app.use(allowCrossDomain);
 app.use(helmet())
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms'))
