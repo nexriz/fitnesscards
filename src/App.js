@@ -7,17 +7,30 @@ import Navigation from './components/Navigation';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import NavbarBottom from './components/NavbarBottom';
-
+import io from 'socket.io-client';
 // Pages
 import LoginPage from './LoginPage';
 
 import { fetchCards } from './components/redux/actions/cardActions';
+
+
 
 const mapStateToProps = (state) => {
 	return { cards: state.cards }
 }
 @connect(mapStateToProps, { fetchCards })
 export default class App extends React.Component {
+  constructor() {
+  	super();
+
+  	this.socket = io.connect('http://localhost:8000/');
+
+  	this.socket.on('message', data => {
+	console.log(data);
+	this.socket.emit('messages', { good: 'bye' });
+	})
+
+  }
   componentWillMount() {
   	this.props.fetchCards({})
   }
