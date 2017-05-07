@@ -38,7 +38,12 @@ let init = [
 ];
 
 export default (state=init, action) => {
-	return action.type === 'ADD_CARD'
-		? [...state, ...action.payload]
-		: state;
+	switch(action.type) {
+		case 'ADD_CARD':
+			return [...state, ...action.payload]
+		case 'SORT_CARDS':
+			return [...action.payload]
+		default:
+			return state
+	}
 }

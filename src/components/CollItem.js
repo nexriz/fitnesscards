@@ -9,9 +9,13 @@ export default class CollItem extends React.Component {
 			return {display: !state.display}
 		})
 	}
+	componentWillReceiveProps(nextProps) {
+		const { display } = this.state;
+		if(nextProps.close !== display) this.setState({display: nextProps.close})
+	}
 	render() {
 		const { display } = this.state;
-		const { header, icon, first } = this.props;
+		const { header, icon, first, close } = this.props;
 		return (
 			<Motion 
 				defaultStyle={{margin: 30, bottom: 0}} 
@@ -22,8 +26,7 @@ export default class CollItem extends React.Component {
 					<Collapseble style={{
 						padding: '15px 0px',
 						margin: `${styles.bottom}px ${styles.margin}px ${styles.bottom}px ${styles.margin}px`,
-						borderBottom: '1px solid rgba(0,0,0,0.1)',
-						backgroundColor: '#546e7a'
+						borderBottom: '1px solid rgba(0,0,0,0)'
 						}} onClick={this.mouseEventClick}>
 						   	<Header><Icon 
 						   				style={{float: `${first ? '' : 'left'}`}}
@@ -51,11 +54,16 @@ const Title = styled.h4`
 	font-weight: 500!important;
 	user-select: none;
 `;
+						// backgroundColor: '#546e7a'
+
 const Collapseble = styled.li`
 	-webkit-tap-highlight-color:  rgba(255, 255, 255, 0);
 	user-select: none;
+	background-color: rgba(0,80,40,0.4);
+	border: 1px solid rgba(0,0,0,0);
+	border-radius: 2px;
 	cursor: pointer;
-	box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12);
+	box-shadow: 0 2px 0px 0 rgba(0,0,0,0.1), 0 2px 0px 0 rgba(0,0,0,0.1);
 `;
 const Header = styled.a`
 	width: 100px;

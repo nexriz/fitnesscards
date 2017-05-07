@@ -8,6 +8,18 @@ const addCard = (card) => {
 	}
 }
 
+const sortCards = (cards) => {
+	return {
+		type: 'SORT_CARDS',
+		payload: cards
+	}
+}
+export const dispatchsortCards = (cards) => {
+	return dispatch => {
+		dispatch(sortCards(cards));
+	}
+}
+
 export const fetchCards = (query) => {
 	return dispatch => {
 		axios.post('http://localhost:8080/api/card', query)

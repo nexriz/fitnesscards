@@ -7,62 +7,76 @@ import Navigation from './components/Navigation';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import NavbarBottom from './components/NavbarBottom';
-import io from 'socket.io-client';
+
+import { SortableContainer, SortableElement, arrayMove } from 'react-sortable-hoc';
+
+
+
 // Pages
 import LoginPage from './LoginPage';
 
-import { fetchCards } from './components/redux/actions/cardActions';
+import { fetchCards, dispatchsortCards } from './components/redux/actions/cardActions';
 
 
 const Profiler = () => <div style={{margin: 'auto'}}><CardEditor></CardEditor></div>
 
 const Search = () => <div style={{margin: 'auto'}}><h1>Sök</h1></div>
 
+const SortableItem = SortableElement(({item, close}) => 
+	<li style={{listStyleType: 'none'}}><Card close={close} title={item.title} color={item.color} picture={item.picture}/></li>
+)
+
 
 const mapStateToProps = (state) => {
 	return { cards: state.cards }
 }
-@connect(mapStateToProps, { fetchCards })
+@connect(mapStateToProps, { fetchCards, dispatchsortCards })
 export default class App extends React.Component {
   constructor() {
   	super();
-
-  	this.socket = io.connect('http://localhost:8000/');
-
-  	this.socket.on('message', data => {
-	console.log(data);
-	this.socket.emit('messages', { good: 'bye' });
-	})
-
   }
+  state = { close: null }
   componentWillMount() {
   	this.props.fetchCards({})
+  }
+  onSortEnd = ({oldIndex, newIndex}) => {
+  	const newCards = arrayMove(this.props.cards, oldIndex, newIndex);
+  	this.props.dispatchsortCards(newCards);
+  	this.setState({close: null})
+  }
+  closeColl = () => {
+  	this.setState({close: false})
   }
   render() {
     return (
     	<Router>
 	    	<Page id="page">
-	    		<Navigation/>
+	    		<Navigation />
 	    		<Route render={({ location }) => (
 				    <Container>
-	    				<Route exact path="/" render={() => <Cards cards={this.props.cards} />}/>
-					    <Route path="/profiler" component={Profiler}/>	    
-					    <Route path="/sök" component={Search}/>	    
-					    <Route path="/login" component={LoginPage}/>
-					    <Footer><h3 style={{margin: 'auto', paddingBottom: '30px'}}>Footer</h3></Footer>	    
+		    				<Route exact path="/" render={() => <Cards 
+		    					close={this.state.close} 
+		    					onSortStart={this.closeColl} 
+		    					onSortEnd={this.onSortEnd} 
+		    					cards={this.props.cards}
+		    					pressDelay={800} />}/>
+						    <Route path="/profiler" component={Profiler}/>	    
+						    <Route path="/sök" component={Search}/>	    
+						    <Route path="/login" component={LoginPage}/>
 				  	</Container>
 	    		)}/>
-	    		<NavbarBottom></NavbarBottom>
+					    	<Footer><h3 style={{margin: 'auto', paddingBottom: '30px'}}>Footer</h3></Footer>	    
+	    		<NavbarBottom />
 	    	</Page>
     	</Router>
     );
   }
 }
 
-const Cards = ({cards}) => (
-    	<div>
-    		{cards.map((item, i) => <Card key={i} title={item.title} color={item.color} picture={item.picture}/>)}
-    	</div>
+const Cards = SortableContainer(({cards, close}) =>
+    	<ul>
+    		{cards.map((item, i) => <SortableItem key={`item-${i}`} index={i} item={item} close={close}/>)}
+    	</ul>
 )
 
 
@@ -74,8 +88,8 @@ const Page = styled.div`
 
 const Container = styled.main`
 	margin: auto;
+	margin-top: 70px;
 	height: 100%;
-	padding-top: 100px;
 	display: flex;
 	flex-direction: column;
 `;

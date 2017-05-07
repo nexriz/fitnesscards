@@ -22,6 +22,11 @@ const Edit = styled.input`
 	&:focus {
 		outline: none;
 	}
+	&::placeholder {
+		color: rgba(255,255,255,0.7);
+		font-weight: 400;
+		font-size: 20px;
+	}
 `;
 export default class CardEditor extends React.Component {
   state = {

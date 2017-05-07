@@ -6,30 +6,26 @@ import legdips from '../svg/legdips.svg';
 import medal from '../svg/medal.svg';
 import CollItem from '../components/CollItem';
 
+const ap = false;
+
+if(ap) console.log('lol')
+
 export default class Card extends React.Component {
-	state = {
-		leave: false,
-		test: { opacity: '1' }
-	}
-  componentWillUnmount() {
-  	this.setState({ leave: true, test: { opacity: '0'}})
-  }
   render() {
-  	const { title, color, picture, infoItems, author } = this.props;
+  	const { title, color, picture, infoItems, author, close } = this.props;
     return (
     	<CardContainer style={{ transition: 'opacity 2s', opacity: '1'}} color={color}>
     		<CardPicture picture={picture && picture}/>
     		<CardTitle title={title}/>
     		<PictureInfoItems infoItems={infoItems}/>
 			    <ContentContainer>
-
 			   		<CollUl>
-			   			<CollItem  header="Övningar" icon={athlete}>
+			   			<CollItem  header="Övningar" icon={athlete} close={close}>
 			   			</CollItem>
-			   			<CollItem header="Alternativ" icon={exerc}>
+			   			<CollItem header="Alternativ" icon={exerc} close={close}>
 			   				<Img src="http://annicaenglund.se/wp-content/uploads/2013/12/Collage3.jpg" alt=""/>
 			   			</CollItem>
-			   			<CollItem header="Extra" icon={legdips}>
+			   			<CollItem header="Extra" icon={legdips} close={close}>
 			   				<Img src="http://annicaenglund.se/wp-content/uploads/2013/12/Collage3.jpg" alt=""/>
 			   			</CollItem>
 			   		</CollUl>
@@ -48,6 +44,7 @@ class CardPicture extends React.Component {
 		modal: false
 	}
 	mouseEventClick = () => {
+		return;
 		this.setState((state) => {
 			this.documentBody(!state.modal)
 			return {modal: !state.modal}
@@ -161,28 +158,28 @@ const ContentContainer = styled.div`
 `;
 
 const InfoItem = styled.div`
-	height: 20px;
-	width: 15px;
+	height: 25px;
+	width: 20px;
 	background-color: rgba(15,15,15, 0.8);
 	transition: width 0.5s;
 	color: white;
 	padding-left: 6px;
 	letter-spacing: 5px;
 	&:hover {
-		width: 320px;
+		width: 314px;
 	}
 	overflow: hidden;
 	cursor: pointer;
 	user-select: none;
 	-webkit-tap-highlight-color:  rgba(255, 255, 255, 0);
-	z-index: 4;
+	z-index: 2;
 `;
 const InfoBox = styled.div`
 	height: 80px;
 	width: 50px;
 	position: absolute;
 	transform: translate(0, -100px);
-	z-index: 4;
+	z-index: 2;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
@@ -204,15 +201,17 @@ const Title = styled.h2`
 const TitleBox = styled.div`
 	width: 100%;
 	height: 50px;
-	transform: translate(0, -162px)
-	background-color: #37474f;
+	transform: translate(0, -200px)
+	position: absolute;
+	background-color: rgba(0,0,0,0);
 `;
+// #37474f
 const Picture = styled.div`
-	height: 160px;
+	height: 200px;
 	max-width: 100%;
 	background-size: cover!important;
 	z-index: 3;
-	transform: translate(0, 50px);
+	transform: translate(0, 0);
 	border-bottom: 1px solid rgba(0,0,0,0.2);
 	border-top: 1px solid rgba(0,0,0,0.2);
 `;
