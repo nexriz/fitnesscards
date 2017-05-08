@@ -54,24 +54,18 @@ export default class Navigation extends React.Component {
   }
   render() {
     return (
-      <NavContainer>
-    		<Navbar id="navbar" style={this.state.test} >
-    			<i onClick={this.onClick} className="small material-icons my-menu" style={{color: 'white', float: 'right', padding: '15px', cursor: 'pointer'}}>view_module</i>
-    		</Navbar>
-    		<SideNav id="side-nav" onClick={this.closeNav}>
-    			<Divider />
-    			<NavLink to="/"><NavItem><i className="material-icons" style={{paddingRight: '10px'}}>perm_identity</i> Hem</NavItem></NavLink>
-    			<NavLink to="/profiler"><NavItem><i className="material-icons" style={{paddingRight: '10px'}}>perm_identity</i> Profiler</NavItem></NavLink>
-    			<NavLink to="/login"><NavItem><i className="material-icons" style={{paddingRight: '10px'}}>input</i> Logga in</NavItem></NavLink>
-    		</SideNav>      	
-      </NavContainer>
+        <Navbar>
+          <Header>
+            Välkommen
+          </Header>
+        </Navbar>
     );
   }
 }
 
-
-const NavContainer = styled.div`
-
+const Header = styled.h3`
+  color: white;
+  text-align: center;
 `;
 
 const SideNav = styled.div`
@@ -88,7 +82,8 @@ const SideNav = styled.div`
 const Divider = styled.div`
 	width: 300px;
 	border-bottom: 1px solid rgba(0,0,0,0.3);
-`
+`;
+
 const NavItem = styled.div`
 	width: 300px;
 	padding: 5px;

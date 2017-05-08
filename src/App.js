@@ -28,7 +28,7 @@ const SortableItem = SortableElement(({item, close}) =>
 
 
 const mapStateToProps = (state) => {
-	return { cards: state.cards }
+	return {cards: state.cards}
 }
 @connect(mapStateToProps, { fetchCards, dispatchsortCards })
 export default class App extends React.Component {
@@ -54,15 +54,16 @@ export default class App extends React.Component {
 	    		<Navigation />
 	    		<Route render={({ location }) => (
 				    <Container>
-		    				<Route exact path="/" render={() => <Cards 
-		    					close={this.state.close} 
-		    					onSortStart={this.closeColl} 
-		    					onSortEnd={this.onSortEnd} 
-		    					cards={this.props.cards}
-		    					pressDelay={800} />}
-		    					lockToContainerEdges={true}
-		    					lockAxis
-		    					useWindowAsScrollContainer/>
+		    				<Route exact path="/" render={() => 
+		    					<Cards 
+			    					close={this.state.close} 
+			    					onSortStart={this.closeColl} 
+			    					onSortEnd={this.onSortEnd} 
+			    					cards={this.props.cards}
+			    					pressDelay={800} />}
+			    					lockToContainerEdges={true}
+			    					lockAxis
+			    					useWindowAsScrollContainer/>
 						    <Route path="/profiler" component={Profiler}/>	    
 						    <Route path="/sök" component={Search}/>	    
 						    <Route path="/login" component={LoginPage}/>
@@ -82,9 +83,6 @@ const Cards = SortableContainer(({cards, close}) =>
     	</div>
 )
 
-
-
-
 const Page = styled.div`
 	height: 100%;
 `;
@@ -102,7 +100,7 @@ const Container = styled.main`
 injectGlobal`
 	@import url('https://fonts.googleapis.com/css?family=Anton|Audiowide|Chewy|Rubik+Mono+One');
 	@font-face {
-		font-family: 'Chewy', cursive;
+		font-family: 'Audiowide', cursive;
 	}
 	.public-DraftEditorPlaceholder-inner {
 	  position: absolute;

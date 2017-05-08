@@ -3,10 +3,25 @@ import styled from 'styled-components';
 import { Motion, spring } from 'react-motion';
 
 export default class CollItem extends React.Component {
-	state = { display: false }
-	mouseEventClick = () => {
+	state = { 
+		id: Math.random().toString(32).substring(2),
+		display: false
+	}
+	c
+	componentDidMount() {
+		this.header = document.getElementById(this.state.id);
+		this.header.addEventListener('touchstart', this.mouseEventClick, false);
+	}
+	componentWillUnmount() {
+		this.header.removeEventListener('touchstart', this.mouseEventClick, false);
+		this.header = false;
+	}
+	mouseEventClick = (e) => {
+		e.preventDefault();
 		this.setState((state) => {
-			return {display: !state.display}
+			return {
+				display: !state.display
+			}
 		})
 	}
 	componentWillReceiveProps(nextProps) {
@@ -14,7 +29,7 @@ export default class CollItem extends React.Component {
 		if(nextProps.close !== display) this.setState({display: nextProps.close})
 	}
 	render() {
-		const { display } = this.state;
+		const { display, id } = this.state;
 		const { header, icon, first, close } = this.props;
 		return (
 			<Motion 
@@ -28,7 +43,7 @@ export default class CollItem extends React.Component {
 						margin: `${styles.bottom}px ${styles.margin}px ${styles.bottom}px ${styles.margin}px`,
 						borderBottom: '1px solid rgba(0,0,0,0)'
 						}} >
-						   	<Header onClick={this.mouseEventClick}><Icon 
+						   	<Header id={id} onClick={this.mouseEventClick}><Icon 
 						   				style={{float: `${first ? '' : 'left'}`}}
 						   				src={icon ? icon : 'icon'}/>
 						   				<Title>{header}</Title>
