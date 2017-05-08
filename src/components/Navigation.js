@@ -1,5 +1,4 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { login, logout } from './redux/actions/userActions';
@@ -66,36 +65,6 @@ export default class Navigation extends React.Component {
 const Header = styled.h3`
   color: white;
   text-align: center;
-`;
-
-const SideNav = styled.div`
-	z-index: 10;
-	height: 100%;
-	width: 0px;
-	background-color: #111111;
-	position: fixed;
-	transition: width 0.3s ease-in-out;
-	overflow: hidden;
-	padding-top: 100px;
-`;
-
-const Divider = styled.div`
-	width: 300px;
-	border-bottom: 1px solid rgba(0,0,0,0.3);
-`;
-
-const NavItem = styled.div`
-	width: 300px;
-	padding: 5px;
-	display: flex;
-	justify-content: center;
-	color: white;
-	cursor: pointer;
-	border-bottom: 1px solid rgba(0,0,0,0.3);
-	transition: background-color 0.15s ease-in-out;
-	&:hover {
-		background-color: #EA454B;
-	}
 `;
 
 const Navbar = styled.header`

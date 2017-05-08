@@ -32,9 +32,6 @@ const mapStateToProps = (state) => {
 }
 @connect(mapStateToProps, { fetchCards, dispatchsortCards })
 export default class App extends React.Component {
-  constructor() {
-  	super();
-  }
   state = { close: null }
   componentWillMount() {
   	this.props.fetchCards({})

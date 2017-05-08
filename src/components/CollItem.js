@@ -30,7 +30,7 @@ export default class CollItem extends React.Component {
 	}
 	render() {
 		const { display, id } = this.state;
-		const { header, icon, first, close } = this.props;
+		const { header, icon, first } = this.props;
 		return (
 			<Motion 
 				defaultStyle={{margin: 30, bottom: 0}} 
