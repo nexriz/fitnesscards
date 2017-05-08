@@ -23,7 +23,7 @@ const Profiler = () => <div style={{margin: 'auto'}}><CardEditor></CardEditor></
 const Search = () => <div style={{margin: 'auto'}}><h1>Sök</h1></div>
 
 const SortableItem = SortableElement(({item, close}) => 
-	<li style={{listStyleType: 'none'}}><Card close={close} title={item.title} color={item.color} picture={item.picture}/></li>
+	<div><Card close={close} title={item.title} color={item.color} picture={item.picture}/></div>
 )
 
 
@@ -59,7 +59,10 @@ export default class App extends React.Component {
 		    					onSortStart={this.closeColl} 
 		    					onSortEnd={this.onSortEnd} 
 		    					cards={this.props.cards}
-		    					pressDelay={800} />}/>
+		    					pressDelay={800} />}
+		    					lockToContainerEdges={true}
+		    					lockAxis
+		    					useWindowAsScrollContainer/>
 						    <Route path="/profiler" component={Profiler}/>	    
 						    <Route path="/sök" component={Search}/>	    
 						    <Route path="/login" component={LoginPage}/>
@@ -74,9 +77,9 @@ export default class App extends React.Component {
 }
 
 const Cards = SortableContainer(({cards, close}) =>
-    	<ul>
+    	<div>
     		{cards.map((item, i) => <SortableItem key={`item-${i}`} index={i} item={item} close={close}/>)}
-    	</ul>
+    	</div>
 )
 
 
@@ -89,6 +92,7 @@ const Page = styled.div`
 const Container = styled.main`
 	margin: auto;
 	margin-top: 70px;
+	width: 100%;
 	height: 100%;
 	display: flex;
 	flex-direction: column;
@@ -110,6 +114,7 @@ injectGlobal`
 		-webkit-font-smoothing: antialiased;
 		user-select: none;
 		-webkit-tap-highlight-color:  rgba(255, 255, 255, 0);
+		list-style-type: none;
 	}
 	a {
 		color: rgba(255,255,255,1);
@@ -119,17 +124,6 @@ injectGlobal`
 		padding: 0;
 		background: url(${pattern});
 		overflow-x: hidden;
-	}
-	.collapsible-header {
-		background-color: #546e7a;
-		border-bottom: 1px solid #546e7a;
-	}
-	.collapsible-body {
-		background-color: white;
-	}
-	.collapsible.popout>li {
-		will-change: margin!important;
-		transition: margin 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 	}
 	.my-menu {
 		transition: background-color 0.15s ease-in-out;

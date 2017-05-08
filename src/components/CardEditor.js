@@ -146,7 +146,7 @@ const CollUl = styled.ul`
 	list-style: none;
 `;
 
-const Medal = () => <img  width="30px" height="30px" style={{position: 'absolute', right: '0', top: '0', transform: 'translate(0,0px)'}} src={medal} alt=""/>
+const Medal = () => <img  width="30px" height="30px" style={{position: 'absolute', right: '0', top: '0', transform: 'translate(0,-2px)'}} src={medal} alt=""/>
 
 
 const CardTitle = (props) => <TitleBox><Icons className="material-icons">assessment</Icons><Title>{props.title}</Title><Medal/></TitleBox>
@@ -197,38 +197,40 @@ const ContentContainer = styled.div`
 
 const InfoItem = styled.div`
 	height: 20px;
-	width: 20px;
+	width: 15px;
 	background-color: rgba(15,15,15, 0.8);
 	transition: width 0.5s;
 	color: white;
 	padding-left: 6px;
 	letter-spacing: 5px;
 	&:hover {
-		width: 320px;
+		width: 314px;
 	}
 	overflow: hidden;
 	cursor: pointer;
 	user-select: none;
 	-webkit-tap-highlight-color:  rgba(255, 255, 255, 0);
-	z-index: 4;
+	z-index: 2;
+	font-size: 15px;
 `;
 const InfoBox = styled.div`
 	height: 80px;
 	width: 50px;
 	position: absolute;
 	transform: translate(0, -100px);
-	z-index: 4;
+	z-index: 2;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
 	user-select: none;
 	-webkit-tap-highlight-color:  rgba(255, 255, 255, 0);
 `
-const Title = styled.h2`
+const Title = styled.h3`
 	position: absolute;
-	top: 7px;
+	top: 12px;
 	left: 45px;
 	color: rgba(255,255,255,1);
+	font-size: 24px;
 	padding: 0;
 	margin: 0;
 	font-family: 'Audiowide', cursive;
@@ -237,17 +239,19 @@ const Title = styled.h2`
 	cursor: pointer;
 `;
 const TitleBox = styled.div`
-	width: 100%;
+	width: inherit;
 	height: 50px;
-	transform: translate(0, -162px)
-	background-color: #37474f;
+	transform: translate(0, -200px)
+	position: absolute;
+	background-color: rgba(0,0,0,0);
 `;
+// #37474f
 const Picture = styled.div`
-	height: 160px;
+	height: 200px;
 	max-width: 100%;
 	background-size: cover!important;
 	z-index: 3;
-	transform: translate(0, 50px);
+	transform: translate(0, 0);
 	border-bottom: 1px solid rgba(0,0,0,0.2);
 	border-top: 1px solid rgba(0,0,0,0.2);
 `;
@@ -257,6 +261,7 @@ const CardContainer = styled.div`
 	min-height: 350px;
 	margin-bottom: 20px;
 	border-radius: 2px;
+	overflow: hidden;
 	background-color: ${props => props.color ? props.color : '#fffde7'};
 	box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2);
 `;

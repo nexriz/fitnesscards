@@ -103,12 +103,13 @@ const ModalBody = styled.div`
 
 
 const CollUl = styled.ul`
-	padding: 20px 0;
+	margin-top: 15px;
+	padding: 0px 0;
 	padding-left: 0;
 	list-style: none;
 `;
 
-const Medal = () => <img  width="30px" height="30px" style={{position: 'absolute', right: '0', top: '0', transform: 'translate(0,0px)'}} src={medal} alt=""/>
+const Medal = () => <img  width="30px" height="30px" style={{position: 'absolute', right: '0', top: '0', transform: 'translate(0,-1px)'}} src={medal} alt=""/>
 
 
 const CardTitle = (props) => <TitleBox><Icons className="material-icons">assessment</Icons><Title>{props.title}</Title><Medal/></TitleBox>
@@ -138,6 +139,7 @@ const Author = styled.a`
 const CardFooter = styled.div`
 	width: 100%;
 	height: 20px;
+	margin-bottom: 5px;
 `;
 
 const Icons = styled.i`
@@ -153,13 +155,13 @@ const Icons = styled.i`
 `;
 
 const ContentContainer = styled.div`
-	margin: 10px;
+	margin: 5px;
 	margin-top: 0px;
 `;
 
 const InfoItem = styled.div`
-	height: 25px;
-	width: 20px;
+	height: 20px;
+	width: 15px;
 	background-color: rgba(15,15,15, 0.8);
 	transition: width 0.5s;
 	color: white;
@@ -173,6 +175,7 @@ const InfoItem = styled.div`
 	user-select: none;
 	-webkit-tap-highlight-color:  rgba(255, 255, 255, 0);
 	z-index: 2;
+	font-size: 15px;
 `;
 const InfoBox = styled.div`
 	height: 80px;
@@ -186,11 +189,12 @@ const InfoBox = styled.div`
 	user-select: none;
 	-webkit-tap-highlight-color:  rgba(255, 255, 255, 0);
 `
-const Title = styled.h2`
+const Title = styled.h3`
 	position: absolute;
-	top: 7px;
+	top: 12px;
 	left: 45px;
 	color: rgba(255,255,255,1);
+	font-size: 24px;
 	padding: 0;
 	margin: 0;
 	font-family: 'Audiowide', cursive;
@@ -199,7 +203,7 @@ const Title = styled.h2`
 	cursor: pointer;
 `;
 const TitleBox = styled.div`
-	width: 100%;
+	width: inherit;
 	height: 50px;
 	transform: translate(0, -200px)
 	position: absolute;
@@ -218,8 +222,8 @@ const Picture = styled.div`
 const CardContainer = styled.div`
 	margin: auto;
 	width: 320px;
-	min-height: 350px;
-	margin-bottom: 20px;
+	min-height: 300px;
+	margin-bottom: 10px;
 	border-radius: 2px;
 	overflow: hidden;
 	background-color: ${props => props.color ? props.color : '#fffde7'};

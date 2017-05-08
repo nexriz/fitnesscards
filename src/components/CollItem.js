@@ -21,14 +21,14 @@ export default class CollItem extends React.Component {
 				defaultStyle={{margin: 30, bottom: 0}} 
 				style={{
 					margin: spring(display ? 0 : 20, {damping: 10, stiffness: 600, precision: 1}), 
-					bottom: spring(display ? 10 : 0, {damping: 23})}}>
+					bottom: spring(display ? 10 : 4, {damping: 23})}}>
 				{styles =>
 					<Collapseble style={{
 						padding: '15px 0px',
 						margin: `${styles.bottom}px ${styles.margin}px ${styles.bottom}px ${styles.margin}px`,
 						borderBottom: '1px solid rgba(0,0,0,0)'
-						}} onClick={this.mouseEventClick}>
-						   	<Header><Icon 
+						}} >
+						   	<Header onClick={this.mouseEventClick}><Icon 
 						   				style={{float: `${first ? '' : 'left'}`}}
 						   				src={icon ? icon : 'icon'}/>
 						   				<Title>{header}</Title>
@@ -59,7 +59,7 @@ const Title = styled.h4`
 const Collapseble = styled.li`
 	-webkit-tap-highlight-color:  rgba(255, 255, 255, 0);
 	user-select: none;
-	background-color: rgba(0,80,40,0.4);
+	background-color: #546e7a;
 	border: 1px solid rgba(0,0,0,0);
 	border-radius: 2px;
 	cursor: pointer;
