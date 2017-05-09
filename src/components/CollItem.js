@@ -24,10 +24,6 @@ export default class CollItem extends React.Component {
 			}
 		})
 	}
-	componentWillReceiveProps(nextProps) {
-		const { display } = this.state;
-		if(nextProps.close !== display) this.setState({display: nextProps.close})
-	}
 	render() {
 		const { display, id } = this.state;
 		const { header, icon, first } = this.props;

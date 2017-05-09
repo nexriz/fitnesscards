@@ -5,6 +5,7 @@ import exerc from '../svg/exercise.svg';
 import legdips from '../svg/legdips.svg';
 import medal from '../svg/medal.svg';
 import CollItem from '../components/CollItem';
+import corner from '../svg/corner-handle.svg';
 
 import CardPicture from './CardPicture';
 import { SortableElement, SortableHandle } from 'react-sortable-hoc';
@@ -18,6 +19,7 @@ import { SortableElement, SortableHandle } from 'react-sortable-hoc';
         		<CardTitle title={title}/>
         		<PictureInfoItems infoItems={infoItems}/>
     			    <ContentContainer>
+    			    <Medal />
     			   		<CollUl>
     			   			<CollItem  header="Övningar" icon={athlete} close={close}>
     			   			</CollItem>
@@ -46,9 +48,11 @@ const CollUl = styled.ul`
 	list-style: none;
 `;
 
-const Medal = SortableHandle(() => <img  width="30px" height="30px" style={{position: 'absolute', right: '0', top: '0', transform: 'translate(0,-1px)'}} src={medal} alt=""/>)
-
-const CardTitle = (props) => <TitleBox><Icons className="material-icons">assessment</Icons><Title>{props.title}</Title><Medal/></TitleBox>
+const Medal = SortableHandle(() => <HandleIcon  width="30px" height="30px" style={{position: 'absolute'}} src={corner} alt=""/>)
+const HandleIcon = styled.img`
+	transform: translate(285px, -15px) rotate(-90deg);
+`;
+const CardTitle = (props) => <TitleBox><Icons className="material-icons">assessment</Icons><Title>{props.title}</Title></TitleBox>
 
 const PictureInfoItems = ({infoItems}) => infoItems
 										   		? <InfoBox>{infoItems.map((item, i) => <InfoItem>{item.name}</InfoItem>)}</InfoBox>
