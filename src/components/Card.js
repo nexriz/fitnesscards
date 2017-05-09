@@ -7,38 +7,35 @@ import medal from '../svg/medal.svg';
 import CollItem from '../components/CollItem';
 
 import CardPicture from './CardPicture';
+import { SortableElement, SortableHandle } from 'react-sortable-hoc';
 
 
-export default class Card extends React.Component {
-  render() {
-  	const { title, color, picture, infoItems, author, close, typeOF } = this.props;
-  	console.log(typeof typeOF)
-    return (
-    	<CardContainer style={{ transition: 'opacity 2s', opacity: '1'}} color={color}>
-    		<CardPicture picture={picture && picture}/>
-    		<CardTitle title={title}/>
-    		<PictureInfoItems infoItems={infoItems}/>
-			    <ContentContainer>
-			   		<CollUl>
-			   			<CollItem  header="Övningar" icon={athlete} close={close}>
-			   			</CollItem>
-			   			<CollItem header="Alternativ" icon={exerc} close={close}>
-			   				<Img src="http://annicaenglund.se/wp-content/uploads/2013/12/Collage3.jpg" alt=""/>
-			   			</CollItem>
-			   			<CollItem header="Extra" icon={legdips} close={close}>
-			   				<Img src="http://annicaenglund.se/wp-content/uploads/2013/12/Collage3.jpg" alt=""/>
-			   			</CollItem>
-			   		</CollUl>
-			    </ContentContainer>
-
-		   <CardFooter>
-		   	 <Author>Skapad av: {author ? author : 'Viktor Lott'}</Author>
-		   </CardFooter>
-        </CardContainer>
-    );
-  }
-}
-
+ export default SortableElement(({props}) => {
+  	const { title, color, picture, infoItems, author } = props;
+    	return (
+        	<CardContainer style={{ transition: 'opacity 2s', opacity: '1'}} color={color}>
+        		<CardPicture picture={picture && picture}/>
+        		<CardTitle title={title}/>
+        		<PictureInfoItems infoItems={infoItems}/>
+    			    <ContentContainer>
+    			   		<CollUl>
+    			   			<CollItem  header="Övningar" icon={athlete} close={close}>
+    			   			</CollItem>
+    			   			<CollItem header="Alternativ" icon={exerc} close={close}>
+    			   				<Img src="http://annicaenglund.se/wp-content/uploads/2013/12/Collage3.jpg" alt=""/>
+    			   			</CollItem>
+    			   			<CollItem header="Extra" icon={legdips} close={close}>
+    			   				<Img src="http://annicaenglund.se/wp-content/uploads/2013/12/Collage3.jpg" alt=""/>
+    			   			</CollItem>
+    			   		</CollUl>
+    			    </ContentContainer>
+    
+    		   <CardFooter>
+    		   	 <Author>Skapad av: {author ? author : 'Viktor Lott'}</Author>
+    		   </CardFooter>
+            </CardContainer>
+        );
+})
 
 
 
@@ -49,7 +46,7 @@ const CollUl = styled.ul`
 	list-style: none;
 `;
 
-const Medal = () => <img  width="30px" height="30px" style={{position: 'absolute', right: '0', top: '0', transform: 'translate(0,-1px)'}} src={medal} alt=""/>
+const Medal = SortableHandle(() => <img  width="30px" height="30px" style={{position: 'absolute', right: '0', top: '0', transform: 'translate(0,-1px)'}} src={medal} alt=""/>)
 
 const CardTitle = (props) => <TitleBox><Icons className="material-icons">assessment</Icons><Title>{props.title}</Title><Medal/></TitleBox>
 

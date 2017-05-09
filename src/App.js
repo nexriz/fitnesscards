@@ -8,7 +8,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import NavbarBottom from './components/NavbarBottom';
 
-import { SortableContainer, SortableElement, arrayMove } from 'react-sortable-hoc';
+import { SortableContainer, arrayMove } from 'react-sortable-hoc';
 
 
 
@@ -21,10 +21,6 @@ import { fetchCards, dispatchsortCards } from './components/redux/actions/cardAc
 const Profiler = () => <div style={{margin: 'auto'}}><CardEditor></CardEditor></div>
 
 const Search = () => <div style={{margin: 'auto'}}><h1>Sök</h1></div>
-
-const SortableItem = SortableElement(({item, close}) => 
-	<div><Card close={close} title={item.title} color={item.color} picture={item.picture}/></div>
-)
 
 
 const mapStateToProps = (state) => {
@@ -51,16 +47,16 @@ export default class App extends React.Component {
 	    		<Navigation />
 	    		<Route render={({ location }) => (
 				    <Container>
-		    				<Route exact path="/" render={() => 
-		    					<Cards 
-			    					close={this.state.close} 
-			    					onSortStart={this.closeColl} 
-			    					onSortEnd={this.onSortEnd} 
-			    					cards={this.props.cards}
-			    					pressDelay={800} />}
-			    					lockToContainerEdges={true}
-			    					lockAxis
-			    					useWindowAsScrollContainer/>
+		    				<Route exact path="/" render={() =>
+		    					<CardsContainer>
+			    					<Cards 
+				    					close={this.state.close} 
+				    					onSortStart={this.closeColl} 
+				    					onSortEnd={this.onSortEnd} 
+				    					cards={this.props.cards}
+				    					useDragHandle={true}/>		    						
+		    					</CardsContainer>}
+			    			/>
 						    <Route path="/profiler" component={Profiler}/>	    
 						    <Route path="/sök" component={Search}/>	    
 						    <Route path="/login" component={LoginPage}/>
@@ -76,14 +72,17 @@ export default class App extends React.Component {
 
 const Cards = SortableContainer(({cards, close}) =>
     	<div>
-    		{cards.map((item, i) => <SortableItem key={`item-${i}`} index={i} item={item} close={close}/>)}
+    		{cards.map((props, i) => <Card key={`item-${i}`} index={i} props={props} close={close}/>)}
     	</div>
 )
 
 const Page = styled.div`
 	height: 100%;
 `;
-
+const CardsContainer = styled.div`
+	width: 320px;
+	margin: auto;
+`;
 const Container = styled.main`
 	margin: auto;
 	margin-top: 70px;
