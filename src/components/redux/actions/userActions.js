@@ -9,6 +9,11 @@ export function setCurrentUser(user) {
 	}
 }
 
+export function setUser(user) {
+	return dispatch => {
+		dispatch(setCurrentUser(user))
+	}
+}
 export function login(user) {
 	return dispatch => {
 	const { name, pass } = user;

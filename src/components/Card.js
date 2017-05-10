@@ -6,40 +6,84 @@ import legdips from '../svg/legdips.svg';
 import medal from '../svg/medal.svg';
 import CollItem from '../components/CollItem';
 import corner from '../svg/corner-handle.svg';
-
+import ReactSwipe from 'react-swipe';
 import CardPicture from './CardPicture';
 import { SortableElement, SortableHandle } from 'react-sortable-hoc';
 
 
- export default SortableElement(({props}) => {
-  	const { title, color, picture, infoItems, author } = props;
+class Swiper extends React.Component {
+	next = () => {
+		this.refs.reactswipe.next();
+	}
+	prev = () => {
+		this.refs.reactswipe.prev();
+	}
+	render() {
+  	const { title, color, picture, infoItems, author, myKey } = this.props;	
+		return (
+			<ReactSwipe key={myKey} ref="reactswipe" swipeOptions={{continuous: false, startSlide: 0}}>
+        		<Contain>
+	        		<CardPicture picture={picture && picture}/>
+	        		<CardTitle title={title} onClick={this.next}/>
+	        		<PictureInfoItems infoItems={infoItems}/>
+	        		<Medal />
+        		</Contain>
+        		<div>
+			   		<ContentContainer>
+		   					<CollUl>
+					   			<CollItem  header="Övningar" icon={athlete} close={close}>
+					   			</CollItem>
+					   			<CollItem header="Alternativ" icon={exerc} close={close}>
+					   				<Img src="http://annicaenglund.se/wp-content/uploads/2013/12/Collage3.jpg" alt=""/>
+					   			</CollItem>
+					   			<CollItem header="Extra" icon={legdips} close={close}>
+					   				<Img src="http://annicaenglund.se/wp-content/uploads/2013/12/Collage3.jpg" alt=""/>
+					   			</CollItem>
+					   		</CollUl>
+				    </ContentContainer>
+			   			<i style={{position: 'absolute', marginLeft: '30px'}} className="material-icons" onClick={this.prev}>fast_rewind</i>
+				    <CardFooter>
+	    		   	 <Author>Skapad av: {author ? author : 'Viktor Lott'}</Author>
+	    		   </CardFooter>
+        		</div>
+        	</ReactSwipe>
+		);
+	}
+}
+
+ export default SortableElement(({props, myKey}) => {
+  	const { color } = props;	
     	return (
         	<CardContainer style={{ transition: 'opacity 2s', opacity: '1'}} color={color}>
-        		<CardPicture picture={picture && picture}/>
-        		<CardTitle title={title}/>
-        		<PictureInfoItems infoItems={infoItems}/>
-    			    <ContentContainer>
-    			    <Medal />
-    			   		<CollUl>
-    			   			<CollItem  header="Övningar" icon={athlete} close={close}>
-    			   			</CollItem>
-    			   			<CollItem header="Alternativ" icon={exerc} close={close}>
-    			   				<Img src="http://annicaenglund.se/wp-content/uploads/2013/12/Collage3.jpg" alt=""/>
-    			   			</CollItem>
-    			   			<CollItem header="Extra" icon={legdips} close={close}>
-    			   				<Img src="http://annicaenglund.se/wp-content/uploads/2013/12/Collage3.jpg" alt=""/>
-    			   			</CollItem>
-    			   		</CollUl>
-    			    </ContentContainer>
-    
-    		   <CardFooter>
-    		   	 <Author>Skapad av: {author ? author : 'Viktor Lott'}</Author>
-    		   </CardFooter>
+        		<Swiper {...props} myKey={myKey} />
             </CardContainer>
         );
 })
+const Contain = styled.div`
+	width: 320px;
+	height: 200px;
+	border-radius: 2px;
+	overflow: hidden;
+	box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2);
+`;
 
-
+const ContentColls = () => {
+	return (
+	    <ContentContainer>
+		    <Medal />
+		   		<CollUl>
+		   			<CollItem  header="Övningar" icon={athlete} close={close}>
+		   			</CollItem>
+		   			<CollItem header="Alternativ" icon={exerc} close={close}>
+		   				<Img src="http://annicaenglund.se/wp-content/uploads/2013/12/Collage3.jpg" alt=""/>
+		   			</CollItem>
+		   			<CollItem header="Extra" icon={legdips} close={close}>
+		   				<Img src="http://annicaenglund.se/wp-content/uploads/2013/12/Collage3.jpg" alt=""/>
+		   			</CollItem>
+		   		</CollUl>
+	    </ContentContainer>
+	);
+}
 
 const CollUl = styled.ul`
 	margin-top: 15px;
@@ -50,9 +94,9 @@ const CollUl = styled.ul`
 
 const Medal = SortableHandle(() => <HandleIcon  width="30px" height="30px" style={{position: 'absolute'}} src={corner} alt=""/>)
 const HandleIcon = styled.img`
-	transform: translate(285px, -15px) rotate(-90deg);
+	transform: translate(290px, -33px) rotate(0deg);
 `;
-const CardTitle = (props) => <TitleBox><Icons className="material-icons">assessment</Icons><Title>{props.title}</Title></TitleBox>
+const CardTitle = (props) => <TitleBox><Icons className="material-icons" onClick={props.onClick}>assessment</Icons><Title>{props.title}</Title></TitleBox>
 
 const PictureInfoItems = ({infoItems}) => infoItems
 										   		? <InfoBox>{infoItems.map((item, i) => <InfoItem>{item.name}</InfoItem>)}</InfoBox>
@@ -79,7 +123,8 @@ const Author = styled.a`
 const CardFooter = styled.div`
 	width: 100%;
 	height: 20px;
-	margin-bottom: 5px;
+	margin-bottom: 0;
+	margin-top: 40px;
 `;
 
 const Icons = styled.i`
@@ -95,7 +140,7 @@ const Icons = styled.i`
 `;
 
 const ContentContainer = styled.div`
-	margin: 5px;
+	margin: 10px;
 	margin-top: 0px;
 `;
 
@@ -142,6 +187,7 @@ const Title = styled.h3`
 	letter-spacing: 1px;
 	font-weight: 200;
 	cursor: pointer;
+	text-shadow: 0 0 10px rgba(0,0,0,0.5);
 `;
 const TitleBox = styled.div`
 	width: inherit;
@@ -155,7 +201,7 @@ const TitleBox = styled.div`
 const CardContainer = styled.div`
 	margin: auto;
 	width: 320px;
-	min-height: 300px;
+	min-height: 200px;
 	margin-bottom: 10px;
 	border-radius: 2px;
 	overflow: hidden;

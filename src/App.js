@@ -10,7 +10,7 @@ import NavbarBottom from './components/NavbarBottom';
 
 import { SortableContainer, arrayMove } from 'react-sortable-hoc';
 
-
+import Authenticate from './utilz/Authenticate';
 
 // Pages
 import LoginPage from './LoginPage';
@@ -24,7 +24,10 @@ const Search = () => <div style={{margin: 'auto'}}><h1>Sök</h1></div>
 
 
 const mapStateToProps = (state) => {
-	return {cards: state.cards}
+	return {
+		cards: state.cards,
+		isAuth: state.user.isAuth
+	}
 }
 @connect(mapStateToProps, { fetchCards, dispatchsortCards })
 export default class App extends React.Component {
@@ -41,6 +44,7 @@ export default class App extends React.Component {
   	this.setState({close: false})
   }
   render() {
+  	const { isAuth } = this.props;
     return (
     	<Router>
 	    	<Page id="page">
@@ -50,34 +54,34 @@ export default class App extends React.Component {
 		    				<Route exact path="/" render={() =>
 		    					<CardsContainer>
 			    					<Cards 
-				    					close={this.state.close} 
 				    					onSortStart={this.closeColl} 
 				    					onSortEnd={this.onSortEnd} 
 				    					cards={this.props.cards}
-				    					useDragHandle={true}/>		    						
+				    					useDragHandle={true}
+				    					useWindowAsScrollContainer={true}
+				    					lockToContainerEdges={true}
+				    					lockAxis="y"/>		    						
 		    					</CardsContainer>}
 			    			/>
-						    <Route path="/profiler" component={Profiler}/>	    
+						    <Route path="/skapa" component={Authenticate(Profiler)}/>	    
 						    <Route path="/sök" component={Search}/>	    
 						    <Route path="/login" component={LoginPage}/>
-				  	</Container>
-	    		)}/>
-					    	<Footer><h3 style={{margin: 'auto', paddingBottom: '30px'}}>Footer</h3></Footer>	    
-	    		<NavbarBottom />
+				  	</Container>	
+	    		)}/> 
+	    	<NavbarBottom isAuth={isAuth && isAuth}/>
 	    	</Page>
     	</Router>
     );
   }
 }
 
-const Cards = SortableContainer(({cards, close}) =>
+const Cards = SortableContainer(({cards}) =>
     	<div>
-    		{cards.map((props, i) => <Card key={`item-${i}`} index={i} props={props} close={close}/>)}
+    		{cards.map((props, i) => <Card key={`item-${i}`} index={i} myKey={i} props={props} />)}
     	</div>
 )
 
 const Page = styled.div`
-	height: 100%;
 `;
 const CardsContainer = styled.div`
 	width: 320px;
@@ -86,6 +90,7 @@ const CardsContainer = styled.div`
 const Container = styled.main`
 	margin: auto;
 	margin-top: 70px;
+	margin-bottom: 50px;
 	width: 100%;
 	height: 100%;
 	display: flex;
@@ -144,6 +149,9 @@ injectGlobal`
 	}
 	::-webkit-scrollbar { 
     display: none; 
+	}
+	.active {
+		color: #EA454B;
 	}
 `;
 

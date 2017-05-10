@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { login, logout } from './redux/actions/userActions';
-
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 @connect(state => {
   return {user: state.user}
 }, { login, logout })
@@ -55,7 +55,7 @@ export default class Navigation extends React.Component {
     return (
         <Navbar>
           <Header>
-            Välkommen
+            Hem
           </Header>
         </Navbar>
     );
@@ -73,7 +73,7 @@ const Navbar = styled.header`
 	background-color: #111111;
 	border-bottom: 1px solid rgba(0,0,0,0.2);
 	z-index: 5;
-	position: absolute;
+	position: fixed;
 	transition: height 0.2s linear;
 	overflow: hidden;
   top: 0;

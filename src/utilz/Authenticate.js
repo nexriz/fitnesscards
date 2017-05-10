@@ -1,23 +1,22 @@
-import React, { Component } from 'react';
+import React, { Component, PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { Redirect, Prompt } from 'react-router-dom';
 
-const mapStateToProps(state) => ({isAuth: state.auth.isAuth})
+const mapStateToProps = (state) => ({isAuth: state.user.isAuth})
 
 export default function(ComposedComponent) {
     @connect(mapStateToProps)
-    class Authenticate extends Component {
-        componentWillMount() {
-            if(!this.props.isAuth) {
-                
-            }
-        }
-        componentWillUpdate(nextProps) {
-            if(!nextProps.isAuth) {
-
-            }
-        }
+    class Authenticate extends PureComponent {
         render() {
-            return <ComposedComponent {...this.props}/>
+            if(this.props.isAuth)
+                return <ComposedComponent {...this.props}/>
+            else
+                return (
+                <div>
+                   <Redirect to="/"/>
+                   <Prompt message="Not Authenticated"/>
+                </div>
+                );
         }
     }
     return Authenticate;

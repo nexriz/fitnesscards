@@ -6,43 +6,29 @@ export default class CardPicture extends React.Component {
 	state = {
 		modal: false
 	}
-	mouseEventClick = () => {
-		return;
-		this.setState((state) => {
-			this.documentBody(!state.modal)
-			return {modal: !state.modal}
-		})
+	componentDidMount() {
+		this.event = document.getElementById('test1')
+		this.event.addEventListener('onmousedown',this.test, false)
 	}
-	documentBody = (modal) => {
-		if(modal) document.body.style.overflow = "hidden";
-		else document.body.style.overflow = "auto";
+	mouseEventClick = (e) => {
+		return;
+		e.preventDefault();
+		this.setState(() => {
+			return {modal: !this.state.modal}
+		})
 	}
 	render() {
 		const { picture } = this.props;
 		const { modal } = this.state;
 
 		return (
-			<div >
-
- 				{modal 
- 					?
- 					<ModalContainer onClick={this.mouseEventClick}>
- 						<ModalBody>
-	 						<Picture 
-			 					onClick={this.mouseEventClick} 
-			 					style={{
-	 								background: `url(${picture ? picture : 'http://cdn-mf0.heartyhosting.com/sites/mensfitness.com/files/_main_chest_2.jpg'}) center`,
-	 						}} />	
- 						</ModalBody>
- 					</ModalContainer>
- 					: <Picture 
-	 					onClick={this.mouseEventClick} 
-	 					style={{
-	 						background: `url(${picture ? picture : 'http://cdn-mf0.heartyhosting.com/sites/mensfitness.com/files/_main_chest_2.jpg'}) center`,
- 						}} />
- 					}
-			</div>
-			)
+			<Picture id="test1"
+				onClick={this.mouseEventClick} 
+				style={{
+					filter: `${this.state.modal ? 'blur(1px)' : 'none'}`,
+					background: `url(${picture ? picture : 'http://cdn-mf0.heartyhosting.com/sites/mensfitness.com/files/_main_chest_2.jpg'}) center`,
+ 			}}/>
+		)
 	}
 }
 
@@ -52,8 +38,9 @@ const Picture = styled.div`
 	background-size: cover!important;
 	z-index: 3;
 	transform: translate(0, 0);
-	border-bottom: 1px solid rgba(0,0,0,0.2);
+	border-bottom: 1px solid rgba(0,0,0,0.5);
 	border-top: 1px solid rgba(0,0,0,0.2);
+	transition: filter 0.3s
 `;
 
 const ModalContainer = styled.div`

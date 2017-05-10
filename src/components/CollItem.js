@@ -1,4 +1,5 @@
 import React from 'react';
+import { findDOMNode } from 'react-dom';
 import styled from 'styled-components';
 import { Motion, spring } from 'react-motion';
 
@@ -15,6 +16,7 @@ export default class CollItem extends React.Component {
 	componentWillUnmount() {
 		this.header.removeEventListener('touchstart', this.mouseEventClick, false);
 		this.header = false;
+		this.setState({display: false})
 	}
 	mouseEventClick = (e) => {
 		e.preventDefault();
@@ -35,11 +37,11 @@ export default class CollItem extends React.Component {
 					bottom: spring(display ? 10 : 4, {damping: 23})}}>
 				{styles =>
 					<Collapseble style={{
-						padding: '15px 0px',
+						padding: '8px 0px',
 						margin: `${styles.bottom}px ${styles.margin}px ${styles.bottom}px ${styles.margin}px`,
 						borderBottom: '1px solid rgba(0,0,0,0)'
 						}} >
-						   	<Header id={id} onClick={this.mouseEventClick}><Icon 
+						   	<Header id={id} ref="test" onClick={this.mouseEventClick}><Icon 
 						   				style={{float: `${first ? '' : 'left'}`}}
 						   				src={icon ? icon : 'icon'}/>
 						   				<Title>{header}</Title>

@@ -1,7 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
+import {setUser} from './components/redux/actions/userActions';
 
-
+@connect((state) => ({isAuth: state.user.isAuth}), {setUser})
 export default class LoginPage extends React.Component {
   state = {
     username: '',
@@ -13,13 +15,14 @@ export default class LoginPage extends React.Component {
   }
   onSubmit = (e) => {
   	e.preventDefault();
-  	console.log(this.state)
+  	this.props.setUser(this.state);
   }
   render() {
     return (
     	<Container>
     		<LoginForm onSubmit={this.onSubmit}>
     			<div style={{margin: 'auto'}}>
+          <p>Logga in med admin admin</p>
 	    			<label>Name</label><br/>
 	    			<input name="username" onChange={this.onChange} type="text"/><br/>
 	    			<label>Pass</label><br/>
@@ -36,13 +39,12 @@ export default class LoginPage extends React.Component {
 
 const Container = styled.section`
 	margin: auto;
-	height: 800px;
 `;
 
 const LoginForm = styled.form`
-	width: 400px;
-	height: 300px;
+	width: 300px;
 	background-color: rgba(0,0,0,0.3);
 	display: flex;
+  padding: 20px;
 	align-items: center;
 `;
