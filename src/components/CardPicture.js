@@ -19,7 +19,6 @@ export default class CardPicture extends React.Component {
 	}
 	render() {
 		const { picture } = this.props;
-		const { modal } = this.state;
 
 		return (
 			<Picture id="test1"
@@ -41,22 +40,4 @@ const Picture = styled.div`
 	border-bottom: 1px solid rgba(0,0,0,0.5);
 	border-top: 1px solid rgba(0,0,0,0.2);
 	transition: filter 0.3s
-`;
-
-const ModalContainer = styled.div`
-	marin: 0;
-	padding: 0;
-	z-index: 100;
-	width: 100%;
-	height: 100%;
-	background-color: rgba(0,0,0,1);
-	position: fixed;
-	top: 0;
-	left: 0;
-`;
-const ModalBody = styled.div`
-	margin: auto;
-	width: 320px;
-	height: 162px;
-	position: relative;
 `;

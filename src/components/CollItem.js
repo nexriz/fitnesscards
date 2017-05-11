@@ -1,5 +1,4 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 import styled from 'styled-components';
 import { Motion, spring } from 'react-motion';
 

@@ -1,27 +1,21 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import styled, { injectGlobal } from 'styled-components';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { SortableContainer, arrayMove } from 'react-sortable-hoc';
+
+// Pages
+import LoginPage from './LoginPage';
+import NavbarBottom from './components/NavbarBottom';
+
 import Card from './components/Card';
 import CardEditor from './components/CardEditor';
 import pattern from './topography.png';
 import Navigation from './components/Navigation';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
-import { connect } from 'react-redux';
-import NavbarBottom from './components/NavbarBottom';
-
-import { SortableContainer, arrayMove } from 'react-sortable-hoc';
-
-import Authenticate from './utilz/Authenticate';
-
-// Pages
-import LoginPage from './LoginPage';
 
 import { fetchCards, dispatchsortCards } from './components/redux/actions/cardActions';
-
-
-const Profiler = () => <div style={{margin: 'auto'}}><CardEditor></CardEditor></div>
-
-const Search = () => <div style={{margin: 'auto'}}><h1>Sök</h1></div>
-
+import Authenticate from './utilz/Authenticate';
+import VirtualList from 'react-tiny-virtual-list';
 
 const mapStateToProps = (state) => {
 	return {
@@ -43,6 +37,10 @@ export default class App extends React.Component {
   closeColl = () => {
   	this.setState({close: false})
   }
+
+  _Profiler = () => <div style={{margin: 'auto'}}><CardEditor></CardEditor></div>
+  _Search = () => <div style={{margin: 'auto'}}><h1>Sök</h1></div>
+
   render() {
   	const { isAuth } = this.props;
     return (
@@ -53,18 +51,11 @@ export default class App extends React.Component {
 				    <Container>
 		    				<Route exact path="/" render={() =>
 		    					<CardsContainer>
-			    					<Cards 
-				    					onSortStart={this.closeColl} 
-				    					onSortEnd={this.onSortEnd} 
-				    					cards={this.props.cards}
-				    					useDragHandle={true}
-				    					useWindowAsScrollContainer={true}
-				    					lockToContainerEdges={true}
-				    					lockAxis="y"/>		    						
+		    						<InfiniteScroll cards={this.props.cards} closeColl={this.closeColl} onSortEnd={this.onSortEnd}/>						
 		    					</CardsContainer>}
 			    			/>
-						    <Route path="/skapa" component={Authenticate(Profiler)}/>	    
-						    <Route path="/sök" component={Search}/>	    
+						    <Route path="/skapa" component={Authenticate(this._Profiler)}/>	    
+						    <Route path="/sök" component={this._Search}/>	    
 						    <Route path="/login" component={LoginPage}/>
 				  	</Container>	
 	    		)}/> 
@@ -75,16 +66,36 @@ export default class App extends React.Component {
   }
 }
 
-const Cards = SortableContainer(({cards}) =>
-    	<div>
-    		{cards.map((props, i) => <Card key={`item-${i}`} index={i} myKey={i} props={props} />)}
-    	</div>
+const InfiniteScroll = ({ cards, closeColl, onSortEnd }) => {
+	return <Cards 
+				cards={cards} 
+				closeColl={closeColl} 
+				onSortEnd={onSortEnd}
+				lockAxis={true}
+				useDragHandle={true}
+				useWindowAsScrollContainer={true}/>
+}
+
+
+const Cards = SortableContainer(({cards}) =>{
+	console.log(cards.length)
+	return <div>
+			<VirtualList
+			    width='auto'
+			    height={600}
+			    itemCount={cards.length}
+			    itemSize={212}
+			    scrollDirection='vertical'
+			    renderItem={({index, style}) => <Card style={style} key={`item-${index}`} index={index} myKey={index} props={cards[index]} />}
+			/>
+		</div>
+	}
 )
 
 const Page = styled.div`
 `;
 const CardsContainer = styled.div`
-	width: 320px;
+	width: 322px;
 	margin: auto;
 `;
 const Container = styled.main`

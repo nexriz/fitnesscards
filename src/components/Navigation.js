@@ -2,7 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { login, logout } from './redux/actions/userActions';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+
+
 @connect(state => {
   return {user: state.user}
 }, { login, logout })

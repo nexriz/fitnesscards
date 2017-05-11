@@ -9,7 +9,7 @@ import corner from '../svg/corner-handle.svg';
 import ReactSwipe from 'react-swipe';
 import CardPicture from './CardPicture';
 import { SortableElement, SortableHandle } from 'react-sortable-hoc';
-
+import GifPlayer from 'react-gif-player';
 
 class Swiper extends React.Component {
 	next = () => {
@@ -28,7 +28,7 @@ class Swiper extends React.Component {
 	        		<PictureInfoItems infoItems={infoItems}/>
 	        		<Medal />
         		</Contain>
-        		<div>
+        		<Contain>
 			   		<ContentContainer>
 		   					<CollUl>
 					   			<CollItem  header="Övningar" icon={athlete} close={close}>
@@ -45,18 +45,22 @@ class Swiper extends React.Component {
 				    <CardFooter>
 	    		   	 <Author>Skapad av: {author ? author : 'Viktor Lott'}</Author>
 	    		   </CardFooter>
-        		</div>
+        		</Contain>
+
         	</ReactSwipe>
 		);
 	}
 }
 
- export default SortableElement(({props, myKey}) => {
+ export default SortableElement(({props, myKey, style}) => {
   	const { color } = props;	
+  	const marg = { marginBottom: '10px'}
     	return (
-        	<CardContainer style={{ transition: 'opacity 2s', opacity: '1'}} color={color}>
-        		<Swiper {...props} myKey={myKey} />
-            </CardContainer>
+    		<li style={style}>
+	        	<CardContainer style={{ transition: 'opacity 2s', opacity: '1'}} color={color}>
+	        		<Swiper {...props} myKey={myKey} />
+	            </CardContainer>
+    		</li>
         );
 })
 const Contain = styled.div`
@@ -64,26 +68,10 @@ const Contain = styled.div`
 	height: 200px;
 	border-radius: 2px;
 	overflow: hidden;
-	box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2);
+	${props => props.shadow 
+		&& `box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2);`}
 `;
 
-const ContentColls = () => {
-	return (
-	    <ContentContainer>
-		    <Medal />
-		   		<CollUl>
-		   			<CollItem  header="Övningar" icon={athlete} close={close}>
-		   			</CollItem>
-		   			<CollItem header="Alternativ" icon={exerc} close={close}>
-		   				<Img src="http://annicaenglund.se/wp-content/uploads/2013/12/Collage3.jpg" alt=""/>
-		   			</CollItem>
-		   			<CollItem header="Extra" icon={legdips} close={close}>
-		   				<Img src="http://annicaenglund.se/wp-content/uploads/2013/12/Collage3.jpg" alt=""/>
-		   			</CollItem>
-		   		</CollUl>
-	    </ContentContainer>
-	);
-}
 
 const CollUl = styled.ul`
 	margin-top: 15px;
@@ -202,7 +190,6 @@ const CardContainer = styled.div`
 	margin: auto;
 	width: 320px;
 	min-height: 200px;
-	margin-bottom: 10px;
 	border-radius: 2px;
 	overflow: hidden;
 	background-color: ${props => props.color ? props.color : '#fffde7'};
