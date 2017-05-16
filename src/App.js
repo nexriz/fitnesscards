@@ -1,8 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import styled, { injectGlobal } from 'styled-components';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { SortableContainer, arrayMove } from 'react-sortable-hoc';
+import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
+import './transition.css';
 
 // Pages
 import LoginPage from './LoginPage';
@@ -11,6 +13,7 @@ import NavbarBottom from './components/NavbarBottom';
 import Card from './components/Card';
 import CardEditor from './components/CardEditor';
 import pattern from './topography.png';
+import patternsport from './Sports.png';
 import Navigation from './components/Navigation';
 
 import { fetchCards, dispatchsortCards } from './components/redux/actions/cardActions';
@@ -29,6 +32,11 @@ export default class App extends React.Component {
   componentWillMount() {
   	this.props.fetchCards({})
   }
+  componentDidMount() {
+  	if(navigator.userAgent.match(/Android/i)){
+    window.scrollTo(0,1);
+ }
+  }
   onSortEnd = ({oldIndex, newIndex}) => {
   	const newCards = arrayMove(this.props.cards, oldIndex, newIndex);
   	this.props.dispatchsortCards(newCards);
@@ -38,74 +46,87 @@ export default class App extends React.Component {
   	this.setState({close: false})
   }
 
-  _Profiler = () => <div style={{margin: 'auto'}}><CardEditor></CardEditor></div>
-  _Search = () => <div style={{margin: 'auto'}}><h1>Sök</h1></div>
-
+  _Profiler = () => 
+  		<div style={{margin: 'auto'}}>
+  			<Navigation header="Profiler"/>
+  			<CardEditor />
+  		</div>
+  _Search = (test) => {
+  		return (
+	    		<div style={{margin: 'auto'}}>
+	    			<Navigation header="Sök"/>
+	    			<h1 style={{textAlign: 'center', marginTop: '100px'}}>Sök</h1>
+	    		</div>
+    	)
+  }
   render() {
   	const { isAuth } = this.props;
     return (
     	<Router>
-	    	<Page id="page">
-	    		<Navigation />
-	    		<Route render={({ location }) => (
-				    <Container>
-		    				<Route exact path="/" render={() =>
+    		<Route render={({ location }) => (
+    			<Page id="page">
+	    				<Route exact path="/" render={() => 
+							<Container>
+								<Navigation header="Hem"/>
 		    					<CardsContainer>
-		    						<InfiniteScroll cards={this.props.cards} closeColl={this.closeColl} onSortEnd={this.onSortEnd}/>						
-		    					</CardsContainer>}
-			    			/>
-						    <Route path="/skapa" component={Authenticate(this._Profiler)}/>	    
-						    <Route path="/sök" component={this._Search}/>	    
-						    <Route path="/login" component={LoginPage}/>
-				  	</Container>	
-	    		)}/> 
-	    	<NavbarBottom isAuth={isAuth && isAuth}/>
-	    	</Page>
+		    							<InfiniteScroll cards={this.props.cards} closeColl={this.closeColl} onSortEnd={this.onSortEnd}/>
+		    					</CardsContainer>
+			  				</Container>
+				    
+	    				}/>			
+					    <Route path="/skapa" component={Authenticate(this._Profiler)}/>	    
+					    <Route path="/sök" component={this._Search}/>	    
+					    <Route path="/login" component={LoginPage}/>
+    				<NavbarBottom isAuth={isAuth && isAuth}/>
+    			</Page>
+    		)}/> 
     	</Router>
     );
   }
 }
 
+
 const InfiniteScroll = ({ cards, closeColl, onSortEnd }) => {
 	return <Cards 
-				cards={cards} 
-				closeColl={closeColl} 
-				onSortEnd={onSortEnd}
-				lockAxis={true}
-				useDragHandle={true}
-				useWindowAsScrollContainer={true}/>
+			cards={cards} 
+			closeColl={closeColl} 
+			onSortEnd={onSortEnd}
+			useDragHandle={true}
+			useWindowAsScrollContainer={true}/>
 }
 
 
 const Cards = SortableContainer(({cards}) =>{
-	console.log(cards.length)
-	return <div>
-			<VirtualList
+	return <StyledVirtualList
 			    width='auto'
-			    height={600}
+			    height={window.innerHeight < 600 ? 600 : window.innerHeight}
 			    itemCount={cards.length}
-			    itemSize={212}
+			    itemSize={205}
 			    scrollDirection='vertical'
 			    renderItem={({index, style}) => <Card style={style} key={`item-${index}`} index={index} myKey={index} props={cards[index]} />}
-			/>
-		</div>
+		    />
 	}
 )
 
+const StyledVirtualList = styled(VirtualList)`
+	-ms-overflow-style: -ms-autohiding-scrollbar;	
+`;
 const Page = styled.div`
 `;
 const CardsContainer = styled.div`
 	width: 322px;
 	margin: auto;
+	-ms-overflow-style: -ms-autohiding-scrollbar;
 `;
 const Container = styled.main`
 	margin: auto;
-	margin-top: 70px;
+	margin-top: 65px;
 	margin-bottom: 50px;
 	width: 100%;
 	height: 100%;
 	display: flex;
 	flex-direction: column;
+	-ms-overflow-style: -ms-autohiding-scrollbar;
 `;
 
 /* eslint-disable */
@@ -113,11 +134,6 @@ injectGlobal`
 	@import url('https://fonts.googleapis.com/css?family=Anton|Audiowide|Chewy|Rubik+Mono+One');
 	@font-face {
 		font-family: 'Audiowide', cursive;
-	}
-	.public-DraftEditorPlaceholder-inner {
-	  position: absolute;
-	  transform: translate(35px, 0);
-	  color: rgba(0,0,0,0.4);
 	}
 	* {
 		font-family: 'Audiowide', cursive;
@@ -132,7 +148,7 @@ injectGlobal`
 	body {
 		margin: 0;
 		padding: 0;
-		background: url(${pattern});
+		background: url(${patternsport});
 		overflow-x: hidden;
 	}
 	.my-menu {

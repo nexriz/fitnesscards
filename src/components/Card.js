@@ -9,7 +9,19 @@ import corner from '../svg/corner-handle.svg';
 import ReactSwipe from 'react-swipe';
 import CardPicture from './CardPicture';
 import { SortableElement, SortableHandle } from 'react-sortable-hoc';
-import GifPlayer from 'react-gif-player';
+
+
+ export default SortableElement(({props, myKey, style}) => {
+  	const { color } = props;	
+  	const marg = { marginBottom: '10px'}
+    	return (
+    		<li style={{...style, }}>
+		        	<CardContainer style={{ transition: 'opacity 2s', opacity: '1'}} color={color}>
+		        		<Swiper {...props} myKey={myKey} />
+		            </CardContainer>
+    		</li>
+        );
+})
 
 class Swiper extends React.Component {
 	next = () => {
@@ -52,17 +64,7 @@ class Swiper extends React.Component {
 	}
 }
 
- export default SortableElement(({props, myKey, style}) => {
-  	const { color } = props;	
-  	const marg = { marginBottom: '10px'}
-    	return (
-    		<li style={style}>
-	        	<CardContainer style={{ transition: 'opacity 2s', opacity: '1'}} color={color}>
-	        		<Swiper {...props} myKey={myKey} />
-	            </CardContainer>
-    		</li>
-        );
-})
+
 const Contain = styled.div`
 	width: 320px;
 	height: 200px;
