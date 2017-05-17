@@ -3,8 +3,10 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import {setUser} from './components/redux/actions/userActions';
 import Navigation from './components/Navigation';
+import { withRouter } from 'react-router-dom';
+
 @connect((state) => ({isAuth: state.user.isAuth}), {setUser})
-export default class LoginPage extends React.Component {
+class LoginPage extends React.Component {
   state = {
     username: '',
     password: ''
@@ -30,12 +32,14 @@ export default class LoginPage extends React.Component {
   	    			<input name="password" onChange={this.onChange} type="password"/><br/>
   	    			<button>login</button>
       			</div>
+            <button onClick={() => this.props.history.push('/')}>Home</button>
       		</LoginForm>
     	</Container>
     );
   }
 }
 
+export default LoginPage
 
 const Container = styled.section`
 	margin: auto;

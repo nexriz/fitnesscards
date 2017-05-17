@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import styled, { injectGlobal } from 'styled-components';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, withRouter } from 'react-router-dom';
 import { SortableContainer, arrayMove } from 'react-sortable-hoc';
 import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import './transition.css';
@@ -18,7 +18,16 @@ import Navigation from './components/Navigation';
 
 import { fetchCards, dispatchsortCards } from './components/redux/actions/cardActions';
 import Authenticate from './utilz/Authenticate';
+import AuthService from './utilz/AuthService';
 import VirtualList from 'react-tiny-virtual-list';
+
+const auth = new AuthService('u9aexf7QRjwfkEKksw5qkGalJ6ldLU2R', 'nexriz.eu.auth0.com');
+
+const requireAuth = (nextState, replace) => {
+  if (!auth.loggedIn()) {
+    replace({ pathname: '/login' })
+  }
+}
 
 const mapStateToProps = (state) => {
 	return {
@@ -63,23 +72,20 @@ export default class App extends React.Component {
   	const { isAuth } = this.props;
     return (
     	<Router>
-    		<Route render={({ location }) => (
-    			<Page id="page">
-	    				<Route exact path="/" render={() => 
-							<Container>
-								<Navigation header="Hem"/>
-		    					<CardsContainer>
-		    							<InfiniteScroll cards={this.props.cards} closeColl={this.closeColl} onSortEnd={this.onSortEnd}/>
-		    					</CardsContainer>
-			  				</Container>
-				    
-	    				}/>			
-					    <Route path="/skapa" component={Authenticate(this._Profiler)}/>	    
-					    <Route path="/sök" component={this._Search}/>	    
-					    <Route path="/login" component={LoginPage}/>
-    				<NavbarBottom isAuth={isAuth && isAuth}/>
-    			</Page>
-    		)}/> 
+			<Page id="page">
+    				<Route exact path="/" render={() => 
+						<Container>
+							<Navigation header="Hem"/>
+	    					<CardsContainer>
+	    							<InfiniteScroll cards={this.props.cards} closeColl={this.closeColl} onSortEnd={this.onSortEnd}/>
+	    					</CardsContainer>
+		  				</Container>
+    				}/>			
+				    <Route path="/skapa" component={Authenticate(this._Profiler)} />	    
+				    <Route path="/sök" component={this._Search}/>	    
+				    <Route path="/login" component={LoginPage} onEnter={requireAuth}/>
+				<NavbarBottom isAuth={isAuth && isAuth}/>
+			</Page>
     	</Router>
     );
   }
@@ -118,7 +124,7 @@ const CardsContainer = styled.div`
 	margin: auto;
 	-ms-overflow-style: -ms-autohiding-scrollbar;
 `;
-const Container = styled.main`
+const Container = styled.div`
 	margin: auto;
 	margin-top: 65px;
 	margin-bottom: 50px;

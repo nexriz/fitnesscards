@@ -16,9 +16,9 @@ import { SortableElement, SortableHandle } from 'react-sortable-hoc';
   	const marg = { marginBottom: '10px'}
     	return (
     		<li style={{...style, }}>
-		        	<CardContainer style={{ transition: 'opacity 2s', opacity: '1'}} color={color}>
-		        		<Swiper {...props} myKey={myKey} />
-		            </CardContainer>
+	        	<CardContainer style={{ transition: 'opacity 2s', opacity: '1'}} color={color}>
+	        		<Swiper {...props} myKey={myKey} />
+	            </CardContainer>
     		</li>
         );
 })
