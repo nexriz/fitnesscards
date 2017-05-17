@@ -21,14 +21,6 @@ import Authenticate from './utilz/Authenticate';
 import AuthService from './utilz/AuthService';
 import VirtualList from 'react-tiny-virtual-list';
 
-const auth = new AuthService('u9aexf7QRjwfkEKksw5qkGalJ6ldLU2R', 'nexriz.eu.auth0.com');
-
-const requireAuth = (nextState, replace) => {
-  if (!auth.loggedIn()) {
-    replace({ pathname: '/login' })
-  }
-}
-
 const mapStateToProps = (state) => {
 	return {
 		cards: state.cards,
@@ -40,11 +32,6 @@ export default class App extends React.Component {
   state = { close: null }
   componentWillMount() {
   	this.props.fetchCards({})
-  }
-  componentDidMount() {
-  	if(navigator.userAgent.match(/Android/i)){
-    window.scrollTo(0,1);
- }
   }
   onSortEnd = ({oldIndex, newIndex}) => {
   	const newCards = arrayMove(this.props.cards, oldIndex, newIndex);
