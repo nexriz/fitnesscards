@@ -1,22 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
-import athlete from '../svg/weightlifting.svg';
-import exerc from '../svg/exercise.svg';
-import legdips from '../svg/legdips.svg';
-import medal from '../svg/medal.svg';
-import CollItem from '../components/CollItem';
+//import athlete from '../svg/weightlifting.svg';
+//import exerc from '../svg/exercise.svg';
+//import legdips from '../svg/legdips.svg';
+//import medal from '../svg/medal.svg';
 import corner from '../svg/corner-handle.svg';
 import ReactSwipe from 'react-swipe';
 import CardPicture from './CardPicture';
 import { SortableElement, SortableHandle } from 'react-sortable-hoc';
-
+import Event from './Event';
 
  export default SortableElement(({props, myKey, style}) => {
   	const { color } = props;	
-  	const marg = { marginBottom: '10px'}
     	return (
-    		<li style={{...style, }}>
-	        	<CardContainer style={{ transition: 'opacity 2s', opacity: '1'}} color={color}>
+    		<li style={{...style }}>
+	        	<CardContainer color={color}>
 	        		<Swiper {...props} myKey={myKey} />
 	            </CardContainer>
     		</li>
@@ -24,14 +22,16 @@ import { SortableElement, SortableHandle } from 'react-sortable-hoc';
 })
 
 class Swiper extends React.Component {
-	next = () => {
+	next = (e) => {
+		e.preventDefault();
 		this.refs.reactswipe.next();
 	}
-	prev = () => {
+	prev = (e) => {
+		e.preventDefault();
 		this.refs.reactswipe.prev();
 	}
 	render() {
-  	const { title, color, picture, infoItems, author, myKey } = this.props;	
+  	const { title, picture, infoItems, author, myKey } = this.props;	
 		return (
 			<ReactSwipe key={myKey} ref="reactswipe" swipeOptions={{continuous: false, startSlide: 0}}>
         		<Contain>
@@ -42,23 +42,13 @@ class Swiper extends React.Component {
         		</Contain>
         		<Contain>
 			   		<ContentContainer>
-		   					<CollUl>
-					   			<CollItem  header="Övningar" icon={athlete} close={close}>
-					   			</CollItem>
-					   			<CollItem header="Alternativ" icon={exerc} close={close}>
-					   				<Img src="http://annicaenglund.se/wp-content/uploads/2013/12/Collage3.jpg" alt=""/>
-					   			</CollItem>
-					   			<CollItem header="Extra" icon={legdips} close={close}>
-					   				<Img src="http://annicaenglund.se/wp-content/uploads/2013/12/Collage3.jpg" alt=""/>
-					   			</CollItem>
-					   		</CollUl>
+
 				    </ContentContainer>
-			   			<i style={{position: 'absolute', marginLeft: '30px'}} className="material-icons" onClick={this.prev}>fast_rewind</i>
+			   		<i style={{position: 'absolute', marginLeft: '30px'}} className="material-icons" onClick={this.prev}>fast_rewind</i>
 				    <CardFooter>
 	    		   	 <Author>Skapad av: {author ? author : 'Viktor Lott'}</Author>
 	    		   </CardFooter>
         		</Contain>
-
         	</ReactSwipe>
 		);
 	}
@@ -86,7 +76,7 @@ const Medal = SortableHandle(() => <HandleIcon  width="30px" height="30px" style
 const HandleIcon = styled.img`
 	transform: translate(290px, -33px) rotate(0deg);
 `;
-const CardTitle = (props) => <TitleBox><Icons className="material-icons" onClick={props.onClick}>assessment</Icons><Title>{props.title}</Title></TitleBox>
+const CardTitle = (props) => <TitleBox><Event tap={props.onClick}><Icons className="material-icons">assessment</Icons></Event><Title>{props.title}</Title></TitleBox>
 
 const PictureInfoItems = ({infoItems}) => infoItems
 										   		? <InfoBox>{infoItems.map((item, i) => <InfoItem>{item.name}</InfoItem>)}</InfoBox>
@@ -136,7 +126,7 @@ const ContentContainer = styled.div`
 
 const InfoItem = styled.div`
 	height: 20px;
-	width: 15px;
+	width: 22px;
 	background-color: rgba(15,15,15, 0.8);
 	transition: width 0.5s;
 	color: white;

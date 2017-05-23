@@ -1,25 +1,22 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import styled, { injectGlobal } from 'styled-components';
-import { BrowserRouter as Router, Route, Switch, withRouter } from 'react-router-dom';
-import { SortableContainer, arrayMove } from 'react-sortable-hoc';
-import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
-import './transition.css';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { RouteTransition } from 'react-router-transition';
 
 // Pages
-import LoginPage from './LoginPage';
-import NavbarBottom from './components/NavbarBottom';
+import Home from './modules/Home';
+import Login from './modules/Login';
+import Cards from './modules/Cards';
 
-import Card from './components/Card';
+import NavbarBottom from './components/NavbarBottom';
 import CardEditor from './components/CardEditor';
-import pattern from './topography.png';
 import patternsport from './Sports.png';
 import Navigation from './components/Navigation';
 
 import { fetchCards, dispatchsortCards } from './components/redux/actions/cardActions';
 import Authenticate from './utilz/Authenticate';
-import AuthService from './utilz/AuthService';
-import VirtualList from 'react-tiny-virtual-list';
+
 
 const mapStateToProps = (state) => {
 	return {
@@ -29,30 +26,18 @@ const mapStateToProps = (state) => {
 }
 @connect(mapStateToProps, { fetchCards, dispatchsortCards })
 export default class App extends React.Component {
-  state = { close: null }
-  componentWillMount() {
-  	this.props.fetchCards({})
-  }
-  onSortEnd = ({oldIndex, newIndex}) => {
-  	const newCards = arrayMove(this.props.cards, oldIndex, newIndex);
-  	this.props.dispatchsortCards(newCards);
-  	this.setState({close: null})
-  }
-  closeColl = () => {
-  	this.setState({close: false})
-  }
-
-  _Profiler = () => 
-  		<div style={{margin: 'auto'}}>
-  			<Navigation header="Profiler"/>
-  			<CardEditor />
-  		</div>
-  _Search = (test) => {
+  _Profiler() {
   		return (
-	    		<div style={{margin: 'auto'}}>
-	    			<Navigation header="Sök"/>
-	    			<h1 style={{textAlign: 'center', marginTop: '100px'}}>Sök</h1>
-	    		</div>
+    		<div style={{margin: 'auto'}}>
+    			<CardEditor />
+    		</div>
+    	)
+  	}
+  _Search(test) {
+  		return (
+    		<div style={{margin: 'auto'}}>
+    			<h1 style={{textAlign: 'center', marginTop: '100px'}}>Sök</h1>
+    		</div>
     	)
   }
   render() {
@@ -60,18 +45,35 @@ export default class App extends React.Component {
     return (
     	<Router>
 			<Page id="page">
-    				<Route exact path="/" render={() => 
-						<Container>
-							<Navigation header="Hem"/>
-	    					<CardsContainer>
-	    							<InfiniteScroll cards={this.props.cards} closeColl={this.closeColl} onSortEnd={this.onSortEnd}/>
-	    					</CardsContainer>
-		  				</Container>
-    				}/>			
-				    <Route path="/skapa" component={Authenticate(this._Profiler)} />	    
-				    <Route path="/sök" component={this._Search}/>	    
-				    <Route path="/login" component={LoginPage} onEnter={requireAuth}/>
-				<NavbarBottom isAuth={isAuth && isAuth}/>
+				<Route render={({location, history, match}) => {
+					return (
+						<div>
+							<Navigation location={location}/>
+						      <RouteTransition
+						      	component="div"
+						        pathname={location.pathname}
+						        atEnter={{ translateX: 15, opacity: 0 }}
+						        atLeave={{ translateX: 15, opacity: 0 }}
+						        atActive={{ translateX: 0, opacity: 1 }}
+						        mapStyles={styles => ({ 
+						        	transform: `translateX(${styles.translateX}%)`, 
+						        	opacity: `${styles.opacity}`, position: 'fixed', 
+						        	left: '0', 
+						        	right: '0'
+						        })}
+						      >
+							      <Switch key={location.key} location={location}>
+				    				<Route exact path="/" component={Home}/>		
+				    				<Route exact path="/kort" component={Cards}/>
+								    <Route path="/skapa" component={Authenticate(this._Profiler)} />	    
+								    <Route path="/sök" component={this._Search}/>	    
+								    <Route path="/login" component={Login} />
+								   </Switch>
+								</RouteTransition>
+							<NavbarBottom isAuth={isAuth && isAuth}/>
+						</div>
+					);
+				}} />
 			</Page>
     	</Router>
     );
@@ -79,47 +81,7 @@ export default class App extends React.Component {
 }
 
 
-const InfiniteScroll = ({ cards, closeColl, onSortEnd }) => {
-	return <Cards 
-			cards={cards} 
-			closeColl={closeColl} 
-			onSortEnd={onSortEnd}
-			useDragHandle={true}
-			useWindowAsScrollContainer={true}/>
-}
-
-
-const Cards = SortableContainer(({cards}) =>{
-	return <StyledVirtualList
-			    width='auto'
-			    height={window.innerHeight < 600 ? 600 : window.innerHeight}
-			    itemCount={cards.length}
-			    itemSize={205}
-			    scrollDirection='vertical'
-			    renderItem={({index, style}) => <Card style={style} key={`item-${index}`} index={index} myKey={index} props={cards[index]} />}
-		    />
-	}
-)
-
-const StyledVirtualList = styled(VirtualList)`
-	-ms-overflow-style: -ms-autohiding-scrollbar;	
-`;
 const Page = styled.div`
-`;
-const CardsContainer = styled.div`
-	width: 322px;
-	margin: auto;
-	-ms-overflow-style: -ms-autohiding-scrollbar;
-`;
-const Container = styled.div`
-	margin: auto;
-	margin-top: 65px;
-	margin-bottom: 50px;
-	width: 100%;
-	height: 100%;
-	display: flex;
-	flex-direction: column;
-	-ms-overflow-style: -ms-autohiding-scrollbar;
 `;
 
 /* eslint-disable */

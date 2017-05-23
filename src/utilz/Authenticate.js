@@ -13,8 +13,8 @@ export default function(ComposedComponent) {
             else
                 return (
                 <div>
-                   <Redirect to="/"/>
                    <Prompt message="Not Authenticated"/>
+                   <Redirect to="/"/>
                 </div>
                 );
         }

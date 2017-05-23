@@ -260,6 +260,7 @@ const CardContainer = styled.div`
 	width: 320px;
 	min-height: 350px;
 	margin-bottom: 20px;
+	margin-top: 70px;
 	border-radius: 2px;
 	overflow: hidden;
 	background-color: ${props => props.color ? props.color : '#fffde7'};
